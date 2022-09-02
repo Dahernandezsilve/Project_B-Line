@@ -7,9 +7,7 @@ import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.estimateAnimationDurationMillis
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -40,45 +38,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Scaffold() {
-
+                    Scaffold {
+                        Navigation()
                     }
-                    Greeting("Android")
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun animationStart(){
-    // Create a MutableTransitionState<Boolean> for the AnimatedVisibility.
-    val state = remember {
-        MutableTransitionState(false).apply {
-            // Start the animation immediately.
-            targetState = true
-        }
-
-    }
-    
-    Column(){
-        AnimatedVisibility(visibleState = state) {
-            Image(painter = painterResource(id = R.drawable.b_line_logo), contentDescription ="lll" )
-        }
-
-        // Use the MutableTransitionState to know the current animation state
-        // of the AnimatedVisibility.
-        Text(
-            text = when {
-                state.isIdle && state.currentState -> "Visible"
-                !state.isIdle && state.currentState -> "Disappearing"
-                state.isIdle && !state.currentState -> "Invisible"
-                else -> "Appearing"
-            }
-        )
-    }
-}
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -99,13 +67,13 @@ fun Navigation() {
 @Composable
 fun SplashScreen(navController: NavController) {
     val scale = remember {
-        androidx.compose.animation.core.Animatable(0f)
+        Animatable(0f)
     }
 
     // Animation
     LaunchedEffect(key1 = true) {
         scale.animateTo(
-            targetValue = 0.7f,
+            targetValue = 0.9f,
             // tween Animation
             animationSpec = tween(
                 durationMillis = 800,
@@ -121,10 +89,30 @@ fun SplashScreen(navController: NavController) {
     Box(contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()) {
         // Change the logo
-        Image(painter = painterResource(id = R.drawable.b_line_logo),
-            contentDescription = "Logo",
-            modifier = Modifier.scale(scale.value))
+        animLOGO(scale = scale)
+
     }
+}
+
+@Composable
+fun animLOGO(scale: Animatable<Float, AnimationVector1D>){
+        Row(verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.scale(scale.value)) {
+            val mod:Modifier = Modifier.size(150.dp)
+            Image(
+                painter = painterResource(id = R.drawable.logosinborde),
+                contentDescription = "Logo",
+                modifier = mod
+            )
+            Image(
+                painter = painterResource(id = R.drawable.textologo),
+                contentDescription = "Logo"
+            )
+    }
+
+
+
+
 }
 
 
