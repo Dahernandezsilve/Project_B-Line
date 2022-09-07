@@ -15,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,10 +56,13 @@ fun Navigation() {
         }
 
         // Main Screen
-        composable("main_screen") {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Main Screen", color = Color.Black, fontSize = 24.sp)
-            }
+       // composable("main_screen") {
+         //   Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+           //     Text(text = "Main Screen", color = Color.Black, fontSize = 24.sp)
+           // }
+        //}
+        composable("main_screen"){
+            productCart(url = "https://cdn.andro4all.com/andro4all/2022/04/Fondo-de-pantalla-de-atardecer.1662389951.0784.jpg?height=600")
         }
     }
 }
