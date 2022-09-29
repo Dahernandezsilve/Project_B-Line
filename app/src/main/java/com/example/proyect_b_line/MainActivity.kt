@@ -1,7 +1,6 @@
 package com.example.proyect_b_line
 
 
-import androidx.compose.ui.graphics.Color
 import android.os.Bundle
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
@@ -10,6 +9,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,11 +18,12 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.NavController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
+import com.example.proyect_b_line.R
+import com.example.proyect_b_line.productCart
 import com.example.proyect_b_line.ui.theme.Proyect_BLineTheme
 import kotlinx.coroutines.delay
 
@@ -62,7 +63,67 @@ fun Navigation() {
            // }
         //}
         composable("main_screen"){
-            productCart(url = "https://cdn.andro4all.com/andro4all/2022/04/Fondo-de-pantalla-de-atardecer.1662389951.0784.jpg?height=600")
+            LazyColumn(content = {
+                item {
+                    productCart(url = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
+                        "Audifonos L",
+                        false,
+                        19,
+                        2.4232323f,
+                        false,
+                        433.49004f,
+                        13.0f
+                    )
+                }
+                item {
+                    productCart(url = "https://i.pinimg.com/564x/df/0c/86/df0c86955745151d0291e698e9b2d528.jpg",
+                        "Pintura de Lobazo",
+                        false,
+                        29,
+                        2.4232323f,
+                        true,
+                        2333.49004f,
+                        23.0f
+                    )
+                }
+                item {
+                    productCart(url = "https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/41PSrh5lpdL._AC_SX466_.jpg",
+                        "Joi Cons",
+                        false,
+                        12,
+                        4.4232323f,
+                        false,
+                        433.49004f,
+                        50.0f
+                    )
+                }
+                item {
+                    productCart(url = "https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/71lcyYiN9rL._AC_UY218_.jpg",
+                        "Nintendo Wii usada",
+                        true,
+                        49,
+                        2.4232323f,
+                        false,
+                        433.49004f,
+                        100.0f
+                    )
+                }
+                item {
+                    productCart(url = "https://images-na.ssl-images-amazon.com/images/W/WEBP_402378-T1/images/I/31uagjqD8DL._SX300_SY300_QL70_FMwebp_.jpg",
+                        "Kit de VR",
+                        true,
+                        49,
+                        2.4232323f,
+                        true,
+                        93.49004f,
+                        10000.0f
+                    )
+                }
+            })
+
+
+
+
         }
     }
 }
@@ -111,10 +172,6 @@ fun animLOGO(scale: Animatable<Float, AnimationVector1D>){
                 contentDescription = "Logo"
             )
     }
-
-
-
-
 }
 
 
