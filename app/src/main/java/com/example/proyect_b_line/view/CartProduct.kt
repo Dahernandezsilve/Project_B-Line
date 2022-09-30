@@ -25,12 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.proyect_b_line.R
+import com.example.proyect_b_line.model.Product
 import com.example.proyect_b_line.ui.theme.gilroyFont
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
 @Composable
-fun ProductCart(url: String, producDescrip:String, disponibility:Boolean, exists:Int, score:Float, sendly:Boolean, costSend:Float, costProduct:Float =0.0f ){
+fun ProductCart(product:Product){
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
     Card(
@@ -44,8 +45,8 @@ fun ProductCart(url: String, producDescrip:String, disponibility:Boolean, exists
     ){
         Column(verticalArrangement = Arrangement.Center, modifier= Modifier.padding(10.dp)) {
             Row(modifier=Modifier.fillMaxWidth()) {
-                Text(text =producDescrip, fontFamily = gilroyFont, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
-                Text(text=("$"+df.format(costProduct)), fontFamily = gilroyFont, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
+                Text(text =product.producDescrip, fontFamily = gilroyFont, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
+                Text(text=("$"+df.format(product.costProduct)), fontFamily = gilroyFont, textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold)
             }
             Row(
                 modifier = Modifier
@@ -53,13 +54,13 @@ fun ProductCart(url: String, producDescrip:String, disponibility:Boolean, exists
                 verticalAlignment = Alignment.CenterVertically
             ){
 
-                AsyncImage(model = url,
+                AsyncImage(model = product.urlImage,
                     contentDescription = "Hola texto",
                     Modifier.requiredSize(95.dp)
                         .padding(5.dp),
                     contentScale = ContentScale.Crop)
 
-                ContentCard(disponibility, exists, score, sendly, costSend)
+                ContentCard(product.disponibility, product.exists, product.score, product.sendly, product.costSend)
             }
         }
     }
@@ -181,7 +182,7 @@ fun Send(sendly: Boolean, costSend: Float){
     var icon:Int = R.drawable.notdisponibility
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
-    var cost:String = ""
+    var cost = ""
     if (sendly){
         icon= R.drawable.disponibility
         cost="$"+df.format(costSend)
@@ -210,14 +211,18 @@ fun Send(sendly: Boolean, costSend: Float){
 @Preview(showBackground = true)
 @Composable
 fun CardPreview() {
-    ProductCart(url = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
-        "Audifonos",
-        true,
-        9,
-        4.4f,
-        true,
-        3.4f,
-        100.0f
+    ProductCart(
+        Product(
+            Url="",
+            urlImage = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
+            "Audifonos L",
+            false,
+            19,
+            2.4232323f,
+            false,
+            433.49005f,
+            13.0f
+        )
     )
     //contentCard(producDescrip = "", disponibility = true, exists =0 , score =0.0f )
 }

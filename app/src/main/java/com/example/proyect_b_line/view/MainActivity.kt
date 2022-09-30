@@ -1,33 +1,18 @@
 package com.example.proyect_b_line.view
 
-
 import android.os.Bundle
-import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.proyect_b_line.R
 import com.example.proyect_b_line.ui.theme.Proyect_BLineTheme
-import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -65,116 +50,11 @@ fun Navigation() {
            // }
         //}
         composable("main_screen"){
-            LazyColumn(content = {
-                item {
-                    ProductCart(url = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
-                        "Audifonos L",
-                        false,
-                        19,
-                        2.4232323f,
-                        false,
-                        433.49005f,
-                        13.0f
-                    )
-                }
-                item {
-                    ProductCart(url = "https://i.pinimg.com/564x/df/0c/86/df0c86955745151d0291e698e9b2d528.jpg",
-                        "Pintura de Lobazo",
-                        false,
-                        29,
-                        2.4232323f,
-                        true,
-                        2333.49f,
-                        23.0f
-                    )
-                }
-                item {
-                    ProductCart(url = "https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/41PSrh5lpdL._AC_SX466_.jpg",
-                        "Joi Cons",
-                        false,
-                        12,
-                        4.423232f,
-                        false,
-                        433.49005f,
-                        50.0f
-                    )
-                }
-                item {
-                    ProductCart(url = "https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/71lcyYiN9rL._AC_UY218_.jpg",
-                        "Nintendo Wii usada",
-                        true,
-                        49,
-                        2.4232323f,
-                        false,
-                        433.49005f,
-                        100.0f
-                    )
-                }
-                item {
-                    ProductCart(url = "https://images-na.ssl-images-amazon.com/images/W/WEBP_402378-T1/images/I/31uagjqD8DL._SX300_SY300_QL70_FMwebp_.jpg",
-                        "Kit de VR",
-                        true,
-                        49,
-                        2.4232323f,
-                        true,
-                        93.49004f,
-                        10000.0f
-                    )
-                }
-            })
-
-
-
-
+            MainScreen()
         }
     }
 }
-@Composable
-fun SplashScreen(navController: NavController) {
-    val scale = remember {
-        Animatable(0f)
-    }
 
-    // Animation
-    LaunchedEffect(key1 = true) {
-        scale.animateTo(
-            targetValue = 0.9f,
-            // tween Animation
-            animationSpec = tween(
-                durationMillis = 800,
-                easing = {
-                    OvershootInterpolator(4f).getInterpolation(it)
-                }))
-        // Customize the delay time
-        delay(3000L)
-        navController.navigate("main_screen")
-    }
-
-    // Image
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()) {
-        // Change the logo
-        AnimLOGO(scale = scale)
-
-    }
-}
-
-@Composable
-fun AnimLOGO(scale: Animatable<Float, AnimationVector1D>){
-        Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.scale(scale.value)) {
-            val mod:Modifier = Modifier.size(150.dp)
-            Image(
-                painter = painterResource(id = R.drawable.logosinborde),
-                contentDescription = "Logo",
-                modifier = mod
-            )
-            Image(
-                painter = painterResource(id = R.drawable.textologo),
-                contentDescription = "Logo"
-            )
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
