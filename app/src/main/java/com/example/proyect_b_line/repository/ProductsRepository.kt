@@ -2,7 +2,7 @@ package com.example.proyect_b_line.repository
 
 import com.example.proyect_b_line.model.Product
 
-fun get(): List<Product>{
+fun getProducts(): List<Product>{
     return listOf(
         Product(
             Url="",

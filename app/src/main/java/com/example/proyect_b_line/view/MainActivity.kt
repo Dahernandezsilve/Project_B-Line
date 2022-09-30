@@ -42,13 +42,6 @@ fun Navigation() {
         composable("splash_screen") {
             SplashScreen(navController = navController)
         }
-
-        // Main Screen
-       // composable("main_screen") {
-         //   Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-           //     Text(text = "Main Screen", color = Color.Black, fontSize = 24.sp)
-           // }
-        //}
         composable("main_screen"){
             MainScreen()
         }
