@@ -1,4 +1,4 @@
-package com.example.proyect_b_line
+package com.example.proyect_b_line.view
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
@@ -14,7 +14,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -25,13 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.proyect_b_line.R
 import com.example.proyect_b_line.ui.theme.gilroyFont
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
 @Composable
-fun productCart(url: String, producDescrip:String, disponibility:Boolean, exists:Int, score:Float, sendly:Boolean, costSend:Float, costProduct:Float =0.0f ){
-    var icon:Int = R.drawable.notdisponibility
+fun ProductCart(url: String, producDescrip:String, disponibility:Boolean, exists:Int, score:Float, sendly:Boolean, costSend:Float, costProduct:Float =0.0f ){
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
     Card(
@@ -60,20 +59,20 @@ fun productCart(url: String, producDescrip:String, disponibility:Boolean, exists
                         .padding(5.dp),
                     contentScale = ContentScale.Crop)
 
-                contentCard(disponibility, exists, score, sendly, costSend)
+                ContentCard(disponibility, exists, score, sendly, costSend)
             }
         }
     }
 }
 
 @Composable
-fun contentCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boolean, costSend: Float){
-    val context = LocalContext.current;
+fun ContentCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boolean, costSend: Float){
+    val context = LocalContext.current
     Column(modifier = Modifier
         .fillMaxSize(),
         verticalArrangement = Arrangement.Bottom
     ) {
-        textInCard(disponibility,exists,score, sendly, costSend)
+        TextInCard(disponibility,exists,score, sendly, costSend)
         Button(onClick = {
             Toast.makeText(
                 context,
@@ -94,26 +93,26 @@ fun contentCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boole
 }
 
 @Composable
-fun textInCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boolean, costSend: Float) {
+fun TextInCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boolean, costSend: Float) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ){
         Column(
             modifier=Modifier.width(120.dp)
         ) {
-            disponib(disponibility = disponibility)
+            Disponibility(disponibility = disponibility)
             Send(sendly = sendly, costSend = costSend)
         }
         Column(modifier=Modifier.width(120.dp)) {
-            exist(exists)
-            calification(score = score)
+            Existence(exists)
+            Calification(score = score)
         }
     }
     
 }
 
 @Composable
-fun disponib(disponibility: Boolean){
+fun Disponibility(disponibility: Boolean){
     var icon:Int = R.drawable.notdisponibility
     if (disponibility){
         icon= R.drawable.disponibility
@@ -134,7 +133,7 @@ fun disponib(disponibility: Boolean){
     }
 }
 @Composable
-fun exist(exists: Int){
+fun Existence(exists: Int){
 
     Row(modifier = Modifier
         .fillMaxWidth()
@@ -155,7 +154,7 @@ fun exist(exists: Int){
     }
 }
 @Composable
-fun calification(score:Float){
+fun Calification(score:Float){
     val df = DecimalFormat("#.#")
     df.roundingMode = RoundingMode.DOWN
     Row(modifier = Modifier
@@ -175,12 +174,14 @@ fun calification(score:Float){
 
     }
 }
+
+
 @Composable
 fun Send(sendly: Boolean, costSend: Float){
     var icon:Int = R.drawable.notdisponibility
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
-    var cost:String=""
+    var cost:String = ""
     if (sendly){
         icon= R.drawable.disponibility
         cost="$"+df.format(costSend)
@@ -209,7 +210,7 @@ fun Send(sendly: Boolean, costSend: Float){
 @Preview(showBackground = true)
 @Composable
 fun CardPreview() {
-    productCart(url = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
+    ProductCart(url = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
         "Audifonos",
         true,
         9,
