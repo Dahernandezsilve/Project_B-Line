@@ -1,7 +1,6 @@
 package com.example.proyect_b_line.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -25,16 +24,6 @@ val TypographyWhite = Typography(
     )
 )
 val TypographyBlack = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = gilroyFont,
-        fontWeight = FontWeight.ExtraBold,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp,
-        color = whiteText
-    )
-)
-val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = gilroyFont,
         fontWeight = FontWeight.ExtraBold,

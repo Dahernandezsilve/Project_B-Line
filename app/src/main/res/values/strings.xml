@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Proyect_B-Line</string>
     <string name="title_activity_tab_menu">TabMenu</string>
+    <string name="infoPro">Mas información del producto</string>
 </resources>
