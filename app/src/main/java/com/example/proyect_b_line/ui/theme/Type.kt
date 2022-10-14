@@ -1,6 +1,7 @@
 package com.example.proyect_b_line.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -13,28 +14,33 @@ val gilroyFont= FontFamily(
     Font(R.font.gilroy_ligth,FontWeight.Light)
 )
 // Set of Material typography styles to start with
+val TypographyWhite = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = gilroyFont,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+        color = blackText
+    )
+)
+val TypographyBlack = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = gilroyFont,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+        color = whiteText
+    )
+)
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = gilroyFont,
         fontWeight = FontWeight.ExtraBold,
         fontSize = 16.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = whiteText
     )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
 )
