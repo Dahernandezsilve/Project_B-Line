@@ -11,8 +11,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.proyect_b_line.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,15 +45,12 @@ fun SearchView() {
             Button(modifier = Modifier
                 .padding(10.dp, 0.dp)
                 .size(70.dp, 40.dp), onClick = { /*TODO*/ },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary)
-                ) {
-
-            }
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                content = {
+                  Icon(painter = painterResource(id = R.drawable.filtrar), contentDescription = "" )
+                }
+                ) 
         }
-
-
-
-
 }
 
 @Preview(showBackground = true)

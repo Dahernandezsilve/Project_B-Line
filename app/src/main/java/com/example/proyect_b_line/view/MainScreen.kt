@@ -11,13 +11,7 @@ fun MainScreen(){
     PB_Theme {
         Column {
             SearchView()
-            LazyColumn(content = {
-                for(product in getProducts()){
-                    item{
-                        ProductCart(product = product)
-                    }
-                }
-            })
+            Stores()
         }
     }
 }
