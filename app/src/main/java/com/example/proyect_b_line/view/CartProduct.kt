@@ -16,18 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.model.Product
-import com.example.proyect_b_line.ui.theme.gilroyFont
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -47,7 +44,7 @@ fun ProductCart(product:Product){
     ){
         Column(verticalArrangement = Arrangement.Center, modifier= Modifier.padding(10.dp)) {
             Row(modifier=Modifier.fillMaxWidth()) {
-                Text(text =product.producDescrip, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
+                Text(text =product.product_Description, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
                 Text(text=("$"+df.format(product.costProduct)), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
             }
             Row(
@@ -57,7 +54,7 @@ fun ProductCart(product:Product){
             ){
                 Card(shape = RoundedCornerShape(15.dp), modifier = Modifier.requiredSize(95.dp).padding(5.dp)) {
                     AsyncImage(model = product.urlImage,
-                        contentDescription = "Hola texto",
+                        contentDescription = product.product_Description,
                         Modifier
                             .padding(5.dp)
                             .requiredSize(96.dp)
@@ -65,20 +62,20 @@ fun ProductCart(product:Product){
                 }
 
 
-                ContentCard(product.disponibility, product.exists, product.score, product.sendly, product.costSend)
+                ContentCard(product.availability, product.exists, product.score, product.shippable, product.costSend)
             }
         }
     }
 }
 
 @Composable
-fun ContentCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boolean, costSend: Float){
+fun ContentCard(availability: Boolean, exists: Int, score: Float, shippable: Boolean, costSend: Float){
     val context = LocalContext.current
     Column(modifier = Modifier
         .fillMaxSize(),
         verticalArrangement = Arrangement.Bottom
     ) {
-        TextInCard(disponibility,exists,score, sendly, costSend)
+        TextInCard(availability,exists,score, shippable, costSend)
         Button(onClick = {
             Toast.makeText(
                 context,
@@ -99,29 +96,29 @@ fun ContentCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boole
 }
 
 @Composable
-fun TextInCard(disponibility: Boolean, exists: Int, score: Float, sendly: Boolean, costSend: Float) {
+fun TextInCard(availability: Boolean, exists: Int, score: Float, shippable: Boolean, costSend: Float) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ){
         Column(
             modifier=Modifier.width(120.dp)
         ) {
-            Disponibility(disponibility = disponibility)
-            Send(sendly = sendly, costSend = costSend)
+            Availability(availability = availability)
+            Send(shippable = shippable, costSend = costSend)
         }
         Column(modifier=Modifier.width(120.dp)) {
             Existence(exists)
-            Calification(score = score)
+            Qualification(score = score)
         }
     }
 
 }
 
 @Composable
-fun Disponibility(disponibility: Boolean){
-    var icon:Int = R.drawable.notdisponibility
-    if (disponibility){
-        icon= R.drawable.disponibility
+fun Availability(availability: Boolean){
+    var icon:Int = R.drawable.not_availability
+    if (availability){
+        icon= R.drawable.availability
     }
 
     Row(modifier = Modifier
@@ -161,7 +158,7 @@ fun Existence(exists: Int){
     }
 }
 @Composable
-fun Calification(score:Float){
+fun Qualification(score:Float){
     val df = DecimalFormat("#.#")
     df.roundingMode = RoundingMode.DOWN
     Row(modifier = Modifier
@@ -184,13 +181,13 @@ fun Calification(score:Float){
 
 
 @Composable
-fun Send(sendly: Boolean, costSend: Float){
-    var icon:Int = R.drawable.notdisponibility
+fun Send(shippable: Boolean, costSend: Float){
+    var icon:Int = R.drawable.not_availability
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
     var cost = ""
-    if (sendly){
-        icon= R.drawable.disponibility
+    if (shippable){
+        icon= R.drawable.availability
         cost="$"+df.format(costSend)
     }
 
@@ -199,7 +196,7 @@ fun Send(sendly: Boolean, costSend: Float){
         .height(40.dp), verticalAlignment = Alignment.CenterVertically){
         Row(modifier = Modifier.width(90.dp)){
             Text(
-                text = "- Envío ",
+                text = "- "+"Envío"+" ",
                 textAlign = TextAlign.Left,
                 style = MaterialTheme.typography.bodyLarge, fontSize = 10.sp)
             Text(
@@ -213,22 +210,3 @@ fun Send(sendly: Boolean, costSend: Float){
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun CardPreview() {
-    ProductCart(
-        Product(
-            Url="",
-            urlImage = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
-            "Audifonos L",
-            false,
-            19,
-            2.4232323f,
-            false,
-            433.49005f,
-            13.0f
-        )
-    )
-    //contentCard(producDescrip = "", disponibility = true, exists =0 , score =0.0f )
-}
