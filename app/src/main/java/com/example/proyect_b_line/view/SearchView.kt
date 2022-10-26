@@ -23,9 +23,9 @@ import com.example.proyect_b_line.R
 fun SearchView() {
 
         var value by remember { mutableStateOf("") }
-        val modifier:Modifier =Modifier.size(280.dp,55.dp)
+
         ConstraintLayout(
-            modifier = Modifier.padding(5.dp, 10.dp),
+            modifier = Modifier.padding(5.dp, 10.dp).fillMaxWidth(),
         ) {
             val (searchTextField, buttonFilters) = createRefs()
             createEndBarrier(searchTextField,buttonFilters)
@@ -37,9 +37,10 @@ fun SearchView() {
                         style = MaterialTheme.typography.bodyLarge
                     )
                 },
-                modifier = Modifier.fillMaxWidth().constrainAs(searchTextField){
+                modifier = Modifier.constrainAs(searchTextField){
                  top.linkTo(parent.top, margin = 3.dp)
                  absoluteLeft.linkTo(parent.absoluteLeft, margin = 3.dp)
+                 absoluteRight.linkTo(buttonFilters.absoluteLeft, margin = 2.dp)
                 },
                 shape = RoundedCornerShape(200.dp),
                 textStyle = MaterialTheme.typography.bodyLarge,
@@ -49,11 +50,10 @@ fun SearchView() {
                 colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.secondary)
             )
             Button(modifier = Modifier
-                .padding(10.dp, 0.dp)
                 .size(70.dp, 40.dp)
                 .constrainAs(buttonFilters){
-                  top.linkTo(parent.top, margin= 3.dp)
-                  absoluteRight.linkTo(parent.absoluteLeft, margin = 3.dp)
+                  top.linkTo(parent.top, margin= 9.dp)
+                  absoluteRight.linkTo(parent.absoluteRight, margin = 3.dp)
                 }
                 , onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
