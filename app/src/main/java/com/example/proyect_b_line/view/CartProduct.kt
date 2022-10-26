@@ -22,16 +22,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.model.Product
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
+
 @Composable
 fun ProductCart(product:Product){
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -42,17 +45,39 @@ fun ProductCart(product:Product){
         shape = RoundedCornerShape(15.dp),
         backgroundColor = MaterialTheme.colorScheme.secondary
     ){
-        Column(verticalArrangement = Arrangement.Center, modifier= Modifier.padding(10.dp)) {
-            Row(modifier=Modifier.fillMaxWidth()) {
-                Text(text =product.product_Description, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
-                Text(text=("$"+df.format(product.costProduct)), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
+        Column(verticalArrangement = Arrangement.Center, modifier= Modifier.padding(10.dp).fillMaxWidth()) {
+            ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+                val (productName, productPrice) = createRefs()
+                Text(text =product.product_Description,
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.constrainAs(productName){
+                        top.linkTo(parent.top, margin = 3.dp)
+                        absoluteLeft.linkTo(parent.absoluteLeft, margin= 3.dp)
+                    }
+                )
+                Text(
+                    text=("$"+df.format(product.costProduct)),
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Right,
+                    modifier = Modifier.constrainAs(productPrice){
+                        top.linkTo(parent.top, margin = 3.dp)
+                        absoluteRight.linkTo(parent.absoluteRight, margin = 3.dp)
+                    }
+                )
             }
+            /*Row(modifier=Modifier.fillMaxWidth(), Arrangement.Center) {
+                Text(text =product.product_Description, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Left, modifier = Modifier.fillMaxWidth())
+                Text(text=("$"+df.format(product.costProduct)), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Right, modifier = Modifier.fillMaxWidth())
+            }*/
             Row(
                 modifier = Modifier
                     .border(shape = RoundedCornerShape(10.dp), border = BorderStroke(0.dp, Color.Transparent)),
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Card(shape = RoundedCornerShape(15.dp), modifier = Modifier.requiredSize(95.dp).padding(5.dp)) {
+                Card(shape = RoundedCornerShape(15.dp), modifier = Modifier
+                    .requiredSize(95.dp)
+                    .padding(5.dp)) {
                     AsyncImage(model = product.urlImage,
                         contentDescription = product.product_Description,
                         Modifier
