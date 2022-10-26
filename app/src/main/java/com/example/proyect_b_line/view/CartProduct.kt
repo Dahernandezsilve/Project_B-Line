@@ -48,6 +48,7 @@ fun ProductCart(product:Product){
         Column(verticalArrangement = Arrangement.Center, modifier= Modifier.padding(10.dp).fillMaxWidth()) {
             ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                 val (productName, productPrice) = createRefs()
+                createStartBarrier(productName,productPrice)
                 Text(text =product.product_Description,
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Left,

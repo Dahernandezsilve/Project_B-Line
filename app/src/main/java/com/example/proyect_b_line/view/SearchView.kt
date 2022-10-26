@@ -1,6 +1,7 @@
 package com.example.proyect_b_line.view
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.proyect_b_line.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,11 +23,12 @@ import com.example.proyect_b_line.R
 fun SearchView() {
 
         var value by remember { mutableStateOf("") }
-        val modifier:Modifier =Modifier.size(280.dp,55.dp)
-        Row(
-            modifier = Modifier.padding(5.dp, 10.dp),
-            verticalAlignment = Alignment.CenterVertically
+
+        ConstraintLayout(
+            modifier = Modifier.padding(5.dp, 10.dp).fillMaxWidth(),
         ) {
+            val (searchTextField, buttonFilters) = createRefs()
+            createEndBarrier(searchTextField,buttonFilters)
             OutlinedTextField(value = value,
                 onValueChange ={value=it},
                 placeholder = {
@@ -34,7 +37,11 @@ fun SearchView() {
                         style = MaterialTheme.typography.bodyLarge
                     )
                 },
-                modifier = modifier,
+                modifier = Modifier.constrainAs(searchTextField){
+                 top.linkTo(parent.top, margin = 3.dp)
+                 absoluteLeft.linkTo(parent.absoluteLeft, margin = 3.dp)
+                 absoluteRight.linkTo(buttonFilters.absoluteLeft, margin = 2.dp)
+                },
                 shape = RoundedCornerShape(200.dp),
                 textStyle = MaterialTheme.typography.bodyLarge,
                 leadingIcon = {
@@ -43,8 +50,12 @@ fun SearchView() {
                 colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.secondary)
             )
             Button(modifier = Modifier
-                .padding(10.dp, 0.dp)
-                .size(70.dp, 40.dp), onClick = { /*TODO*/ },
+                .size(70.dp, 40.dp)
+                .constrainAs(buttonFilters){
+                  top.linkTo(parent.top, margin= 9.dp)
+                  absoluteRight.linkTo(parent.absoluteRight, margin = 3.dp)
+                }
+                , onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 content = {
                   Icon(painter = painterResource(id = R.drawable.filtrar), contentDescription = "" )
