@@ -51,7 +51,7 @@ fun Navigation() {
             MainScreen(navController = navController)
         }
         composable("wish_list_screen"){
-            WishListScreen(navController = navController)
+            WishListScreen()
         }
     }
 }
