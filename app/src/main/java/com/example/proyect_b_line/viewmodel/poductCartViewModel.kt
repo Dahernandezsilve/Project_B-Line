@@ -1,14 +1,30 @@
 package com.example.proyect_b_line.viewmodel
 
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.text.DecimalFormat
-import java.math.RoundingMode
+import androidx.lifecycle.viewModelScope
+import com.example.proyect_b_line.model.Product
+import kotlinx.coroutines.launch
 
-class poductCartViewModel: ViewModel() {
-    fun Re_format(floatVar: Float): String {
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.DOWN
-        return df.format(floatVar).let { "0.00" }
+class SearchViewModel: ViewModel(){
+    val recipes: MutableState<List<Product>> = mutableStateOf(ArrayList())
+
+    val query = mutableStateOf("")
+
+
+    fun newSearch(query: String){
+        viewModelScope.launch {
+            recipes.value
+        }
+    }
+
+    fun onQueryChanged(query: String){
+        this.query.value = query
     }
 }
+
+
 

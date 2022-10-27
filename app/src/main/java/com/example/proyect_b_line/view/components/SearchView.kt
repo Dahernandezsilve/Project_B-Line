@@ -1,7 +1,8 @@
-package com.example.proyect_b_line.view
+package com.example.proyect_b_line.view.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -9,31 +10,40 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.proyect_b_line.R
+import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchView() {
 
         var value by remember { mutableStateOf("") }
+        var viewModel:SearchViewModel= viewModel()
 
         ConstraintLayout(
-            modifier = Modifier.padding(0.dp, 10.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(0.dp, 10.dp)
+                .fillMaxWidth(),
         ) {
             val (searchTextField, buttonFilters) = createRefs()
             createEndBarrier(searchTextField,buttonFilters)
 
-            OutlinedTextField(singleLine = true, value = value,
-                onValueChange ={value=it},
+            OutlinedTextField(singleLine = true, value = viewModel.query.value,
+                onValueChange ={viewModel.onQueryChanged(it)},
                 maxLines = 1,
-                modifier = Modifier.size(300.dp, 50.dp).constrainAs(searchTextField){
-                    top.linkTo(parent.top, margin= 3.dp)
-                    bottom.linkTo(parent.bottom, margin = 3.dp)
-                    absoluteLeft.linkTo(parent.absoluteLeft, margin = 5.dp)
-                },
+                modifier = Modifier
+                    .size(300.dp, 50.dp)
+                    .constrainAs(searchTextField) {
+                        top.linkTo(parent.top, margin = 3.dp)
+                        bottom.linkTo(parent.bottom, margin = 3.dp)
+                        absoluteLeft.linkTo(parent.absoluteLeft, margin = 5.dp)
+                    },
                 placeholder = {
                     Text(text = " Buscar",
                         color = Color.LightGray,
@@ -47,14 +57,19 @@ fun SearchView() {
                 leadingIcon = {
                     Icon(Icons.Default.Search, contentDescription = "", modifier = Modifier.padding(9.dp, 5.dp))
                 },
-                colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.secondary)
-            )
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done,
+                ),
+                colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.secondary),
+
+                )
             Button(modifier = Modifier
                 .size(70.dp, 40.dp)
-                .constrainAs(buttonFilters){
-                  top.linkTo(parent.top, margin= 3.dp)
-                  bottom.linkTo(parent.bottom, margin = 3.dp)
-                  absoluteRight.linkTo(parent.absoluteRight, margin = 5.dp)
+                .constrainAs(buttonFilters) {
+                    top.linkTo(parent.top, margin = 3.dp)
+                    bottom.linkTo(parent.bottom, margin = 3.dp)
+                    absoluteRight.linkTo(parent.absoluteRight, margin = 5.dp)
                 }
                 , onClick = { /*TODO*/ },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
