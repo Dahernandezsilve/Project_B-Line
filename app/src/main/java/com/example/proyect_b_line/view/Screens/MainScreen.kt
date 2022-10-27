@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.example.proyect_b_line.R
+import com.example.proyect_b_line.repository.getProducts
 import com.example.proyect_b_line.ui.theme.PB_Theme
 
 @Composable
@@ -26,7 +27,7 @@ fun MainScreen(navController: NavController){
         Box{
             Column (modifier = Modifier) {
                 SearchView()
-                Stores()
+                Stores(getProducts())
             }
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val floatingButton = createRef()

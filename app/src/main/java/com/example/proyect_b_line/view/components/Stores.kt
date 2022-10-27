@@ -1,8 +1,6 @@
 package com.example.proyect_b_line.view
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,24 +8,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.NavController
-import com.example.proyect_b_line.R
-import com.example.proyect_b_line.repository.getProducts
-import kotlinx.coroutines.NonDisposableHandle.parent
+import com.example.proyect_b_line.model.Product
 
 val listStores= listOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 val listCategories= listOf("Moda", "Nintendo", "Tecnología", "Carros")
 
 @Composable
-fun Stores() {
+fun Stores(productsList: List<Product>) {
         Column {
+
             LazyRow(content = {
                 for(store in listCategories){
                     item {
@@ -64,7 +57,7 @@ fun Stores() {
                 }
             })
             LazyColumn(content = {
-                for(product in getProducts()){
+                for(product in productsList){
                     item{
                         ProductCart(product = product)
                     }
