@@ -48,7 +48,10 @@ fun Navigation() {
             SplashScreen(navController = navController)
         }
         composable("main_screen"){
-            MainScreen()
+            MainScreen(navController = navController)
+        }
+        composable("wish_list_screen"){
+            WishListScreen()
         }
     }
 }
