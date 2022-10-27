@@ -16,6 +16,8 @@ fun WishListScreen (){
     PB_Theme {
         Column {
             Stores(listOf())
+
+            //Hola
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()
                 Text(modifier = Modifier.constrainAs(welcomeText){
