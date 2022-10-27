@@ -8,13 +8,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.proyect_b_line.R
 import com.example.proyect_b_line.ui.theme.PB_Theme
 import com.example.proyect_b_line.view.Stores
+import com.example.proyect_b_line.view.components.Header
 
 @Composable
 fun WishListScreen (){
     PB_Theme {
         Column {
+            Header(R.drawable.milista)
             Stores(listOf())
 
             //Hola

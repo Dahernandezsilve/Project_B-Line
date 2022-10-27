@@ -20,12 +20,15 @@ import androidx.navigation.NavController
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.repository.getProducts
 import com.example.proyect_b_line.ui.theme.PB_Theme
+import com.example.proyect_b_line.view.components.Header
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 @Composable
 fun MainScreen(navController: NavController){
     PB_Theme {
         Box{
             Column (modifier = Modifier) {
+                Header(R.drawable.textologo)
                 SearchView()
                 Stores(getProducts())
             }
@@ -33,9 +36,12 @@ fun MainScreen(navController: NavController){
                 val floatingButton = createRef()
                 FloatingActionButton(onClick = {
                     navController.navigate("wish_list_screen")
-                }, containerColor = MaterialTheme.colorScheme.secondary, modifier = Modifier.constrainAs(floatingButton){
-                    bottom.linkTo(parent.bottom, margin = 15.dp)
-                    absoluteRight.linkTo(parent.absoluteRight, margin = 15.dp) }.size(75.dp, 75.dp),)
+                }, containerColor = MaterialTheme.colorScheme.secondary, modifier = Modifier
+                    .constrainAs(floatingButton) {
+                        bottom.linkTo(parent.bottom, margin = 15.dp)
+                        absoluteRight.linkTo(parent.absoluteRight, margin = 15.dp)
+                    }
+                    .size(75.dp, 75.dp))
                 {
                     Image(painter = painterResource(id = R.drawable.b_line_logo), contentDescription = "B-Line" )
                 }
