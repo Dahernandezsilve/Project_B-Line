@@ -26,8 +26,7 @@ val listStores= listOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 val listCategories= listOf("Moda", "Nintendo", "Tecnología", "Carros")
 
 @Composable
-fun Stores(navController: NavController) {
-    Box {
+fun Stores() {
         Column {
             LazyRow(content = {
                 for(store in listCategories){
@@ -71,21 +70,8 @@ fun Stores(navController: NavController) {
                     }
                 }
             })
-
         }
-        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val floatingButton = createRef()
-            FloatingActionButton(onClick = {
-                navController.navigate("wish_list_screen")
-            }, containerColor = MaterialTheme.colorScheme.secondary, modifier = Modifier.constrainAs(floatingButton){
-                bottom.linkTo(parent.bottom, margin = 15.dp)
-                absoluteRight.linkTo(parent.absoluteRight, margin = 15.dp) }.size(75.dp, 75.dp),)
-            {
-                Image(painter = painterResource(id = R.drawable.b_line_logo), contentDescription = "B-Line" )
-            }
 
-        }
-    }
 
 
 
