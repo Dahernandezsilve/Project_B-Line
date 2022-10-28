@@ -2,7 +2,11 @@ package com.example.proyect_b_line.view.components
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.animation.*
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -28,9 +33,13 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 val listCategories= listOf("Moda", "Nintendo", "Tecnología", "Carros")
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchView(viewModel:SearchViewModel) {
     val context = LocalContext.current
+    var expandedFilter by remember {
+        mutableStateOf(false)
+    }
     Column {
         ConstraintLayout(
             modifier = Modifier
@@ -39,7 +48,7 @@ fun SearchView(viewModel:SearchViewModel) {
         ) {
             val (searchTextField, buttonFilters) = createRefs()
             createEndBarrier(searchTextField,buttonFilters)
-            seach_TextField(
+            Search_TextField(
                 context=context,
                 modifier = Modifier
                     .fillMaxWidth(0.75f)
@@ -53,7 +62,7 @@ fun SearchView(viewModel:SearchViewModel) {
                 value = viewModel.query.value,
                 onSearchChange = {viewModel.onQueryChanged(it)}
             )
-            
+
             Button(
                 modifier = Modifier
                     .fillMaxWidth(0.20f)
@@ -63,7 +72,7 @@ fun SearchView(viewModel:SearchViewModel) {
                         bottom.linkTo(parent.bottom, margin = 3.dp)
                         absoluteRight.linkTo(parent.absoluteRight, margin = 5.dp)
                     },
-                onClick = { viewModel.onOpenFiltersChanged() },
+                onClick = { expandedFilter = !expandedFilter},
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                 content = {
                     Icon(
@@ -73,18 +82,39 @@ fun SearchView(viewModel:SearchViewModel) {
                         )
                 }
             )
-        }
-        val OpenFilters by remember {
-            viewModel.isOpenFilters
-        }
-        if(OpenFilters){
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.size(90.dp)) {
 
+
+
+    }
+        Surface{
+            AnimatedContent(
+                targetState = expandedFilter,
+                transitionSpec = {
+                    fadeIn(animationSpec = tween(150, 150)) with
+                            fadeOut(animationSpec = tween(150)) using
+                            SizeTransform { initialSize, targetSize ->
+                                if (targetState) {
+                                    keyframes {
+                                        // Expand horizontally first.
+                                        IntSize(targetSize.width, initialSize.height) at 150
+                                        durationMillis = 300
+                                    }
+                                } else {
+                                    keyframes {
+                                        // Shrink vertically first.
+                                        IntSize(initialSize.width, targetSize.height) at 150
+                                        durationMillis = 300
+                                    }
+                                }
+                            }
+                }
+            ) { targetExpanded ->
+                if (targetExpanded) {
+                    Filters()
+                } else {
                 }
             }
         }
-
         LazyRow(content = {
             for(store in listCategories){
                 item {
@@ -104,13 +134,12 @@ fun SearchView(viewModel:SearchViewModel) {
             }
         }
         )
-
-    }
+}
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun seach_TextField(context:Context, modifier: Modifier, value:String, onSearchChange: (String)-> Unit){
+fun Search_TextField(context:Context, modifier: Modifier, value:String, onSearchChange: (String)-> Unit){
     OutlinedTextField(
         singleLine = true,
         value = value,
@@ -144,6 +173,7 @@ fun seach_TextField(context:Context, modifier: Modifier, value:String, onSearchC
         colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.secondary)
         )
 }
+
 
 
 
