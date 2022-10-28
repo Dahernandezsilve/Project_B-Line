@@ -1,6 +1,9 @@
 package com.example.proyect_b_line.repository
 
+import android.content.Context
+import android.widget.Toast
 import com.example.proyect_b_line.model.Product
+import org.jsoup.Jsoup
 
 fun getProducts(): List<Product>{
     return listOf(
@@ -72,4 +75,11 @@ fun getProducts(): List<Product>{
         )
 
     )
+}
+
+fun getDataWithJsoup(query: String, context: Context):String{
+    val url = "https://es.wikipedia.org/wiki/Wikipedia:Portada"
+    Jsoup.connect(url).get().also {
+        return it.toString()
+    }
 }
