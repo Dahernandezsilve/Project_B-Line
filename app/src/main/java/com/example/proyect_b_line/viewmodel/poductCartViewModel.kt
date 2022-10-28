@@ -14,11 +14,16 @@ class SearchViewModel: ViewModel(){
 
     val query = mutableStateOf("")
 
+    var isOpenFilters:MutableState<Boolean> = mutableStateOf(false)
 
     fun newSearch(query: String){
         viewModelScope.launch {
             recipes.value
         }
+    }
+
+    fun onOpenFiltersChanged(){
+        isOpenFilters.value!=isOpenFilters.value
     }
 
     fun onQueryChanged(query: String){

@@ -1,4 +1,4 @@
-package com.example.proyect_b_line.view
+package com.example.proyect_b_line.view.components
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke

@@ -14,6 +14,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyect_b_line.ui.theme.PB_Theme
+import com.example.proyect_b_line.view.screens.MainScreen
+import com.example.proyect_b_line.view.screens.SplashScreen
 import com.example.proyect_b_line.view.screens.WishListScreen
 
 class MainActivity : ComponentActivity() {

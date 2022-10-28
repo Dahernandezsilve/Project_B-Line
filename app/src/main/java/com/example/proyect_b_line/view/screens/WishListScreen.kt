@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.ui.theme.PB_Theme
-import com.example.proyect_b_line.view.Stores
+import com.example.proyect_b_line.view.components.Stores
 import com.example.proyect_b_line.view.components.Header
 
 @Composable
