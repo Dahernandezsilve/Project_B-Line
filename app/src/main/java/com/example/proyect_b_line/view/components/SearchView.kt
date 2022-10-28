@@ -111,7 +111,7 @@ fun SearchView(viewModel:SearchViewModel) {
                 }
             ) { targetExpanded ->
                 if (targetExpanded) {
-                    Filters(viewModel.categorie.value, { viewModel.onChangeCategorie(it) }, viewModel.optionable.value,{viewModel.onChangeOptionable()}, viewModel.categories().value!!,viewModel.sizeInt.value )}
+                    Filters(viewModel.categorie.value, { viewModel.onChangeCategorie(it) }, viewModel.optionable.value,{viewModel.onChangeOptionable()}, viewModel.categories().value!!,viewModel.sizeInt.value, viewModel.rotater.value )}
             }
         }
         LazyRow(content = {

@@ -11,7 +11,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -40,7 +39,7 @@ fun ProductCart(product:Product){
         mutableStateOf(false)
     }
     var painterRe by remember {
-        mutableStateOf(android.R.drawable.btn_star_big_off)
+        mutableStateOf(R.drawable.estrella)
     }
 
     Card(
@@ -72,9 +71,10 @@ fun ProductCart(product:Product){
                     start = !start
                     when(start){
                         true -> {
-                            painterRe = android.R.drawable.btn_star_big_off
+                            painterRe = R.drawable.estrella
                         }
-                        false->{ painterRe = android.R.drawable.btn_star_big_on}
+                        false->{ painterRe = R.drawable.estrella2
+                        }
 
                     }
                                      }, modifier = Modifier

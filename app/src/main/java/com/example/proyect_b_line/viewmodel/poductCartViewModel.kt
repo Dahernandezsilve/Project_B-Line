@@ -17,6 +17,8 @@ class SearchViewModel: ViewModel(){
     private val productList = MutableLiveData<List<Product>>(listOf())
     fun productList():LiveData<List<Product>> = productList
 
+    var rotater = mutableStateOf(0.0f)
+
     private val categories = MutableLiveData<List<Categories>>(
         listOf(Categories("Tecnologias", {onChangeCategorie("Tecnologias")}),Categories("Alimentos", {onChangeCategorie("Alimentos")}),Categories("Videojuegos", {onChangeCategorie("Videojuegos")})
         ))//, "Alimentos", "Videojuegos"))
@@ -55,9 +57,11 @@ class SearchViewModel: ViewModel(){
     fun onChangeOptionable(){
         optionable.value = !optionable.value
         if(sizeInt.value<=45){
-            sizeInt.value=75
+            sizeInt.value=100
+            rotater.value = 180.0f
         }else{
             sizeInt.value=45
+            rotater.value = 0.0f
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +20,12 @@ import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 @Composable
-fun Filters(categorie:String, onChageCategorie:(String)->Unit, optionable:Boolean, onChageOptionable:()->Unit, categories: List<Categories>, sizeInt: Int) {
+fun Filters(categorie:String, onChageCategorie:(String)->Unit, optionable:Boolean, onChageOptionable:()->Unit, categories: List<Categories>,
+            sizeInt: Int,
+            rotater: Float
+
+) {
+
     ConstraintLayout(modifier = Modifier
         .fillMaxWidth()
         .size(sizeInt.dp)){
@@ -80,6 +86,7 @@ fun Filters(categorie:String, onChageCategorie:(String)->Unit, optionable:Boolea
                     Icon(
                         painter = painterResource(id = android.R.drawable.arrow_down_float),
                         contentDescription ="",
+                        modifier = Modifier.rotate(rotater)
                     )
                 }
             }
@@ -124,8 +131,7 @@ fun Options(categories:List<Categories>, modifier: Modifier){
                 item {
                     TextButton(onClick = categori.onChange, modifier = Modifier.fillMaxWidth()) {
                         Text(text = categori.option, modifier = Modifier
-                            .fillMaxWidth()
-                            .size(20.dp))
+                            .size(90.dp,20.dp), style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }
@@ -141,5 +147,5 @@ fun PrevFilters(){
 
     val viewModel: SearchViewModel = viewModel()
 
-    Filters(viewModel.categorie.value, { viewModel.onChangeCategorie(it) }, viewModel.optionable.value,{viewModel.onChangeOptionable()}, viewModel.categories().value!!,viewModel.sizeInt.value )
+    Filters(viewModel.categorie.value, { viewModel.onChangeCategorie(it) }, viewModel.optionable.value,{viewModel.onChangeOptionable()}, viewModel.categories().value!!,viewModel.sizeInt.value, viewModel.rotater.value)
 }
