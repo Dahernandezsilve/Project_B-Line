@@ -26,6 +26,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.model.Product
+import com.example.proyect_b_line.viewmodel.SearchViewModel
 import java.math.RoundingMode
 import java.text.DecimalFormat
 

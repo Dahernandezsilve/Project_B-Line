@@ -6,6 +6,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -51,7 +52,9 @@ fun SearchView(viewModel:SearchViewModel) {
                         absoluteLeft.linkTo(parent.absoluteLeft, margin = 5.dp)
                     },
                 value = viewModel.query.value,
-                onSearchChange = {viewModel.onQueryChanged(it)}
+                onSearchChange = {viewModel.onQueryChanged(it)},
+                onSearch = {viewModel.newSearch("t", context)
+                }
             )
             
             Button(
@@ -110,7 +113,7 @@ fun SearchView(viewModel:SearchViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun seach_TextField(context:Context, modifier: Modifier, value:String, onSearchChange: (String)-> Unit){
+fun seach_TextField(context:Context, modifier: Modifier, value:String, onSearchChange: (String)-> Unit,  onSearch: (KeyboardActionScope.() -> Unit)?){
     OutlinedTextField(
         singleLine = true,
         value = value,
@@ -134,13 +137,7 @@ fun seach_TextField(context:Context, modifier: Modifier, value:String, onSearchC
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Search,
         ),
-        keyboardActions = KeyboardActions(onSearch = {
-            Toast.makeText(
-                context,
-                value,
-                Toast.LENGTH_LONG
-            ).show()
-        }),
+        keyboardActions = KeyboardActions(onSearch = onSearch),
         colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.secondary)
         )
 }
