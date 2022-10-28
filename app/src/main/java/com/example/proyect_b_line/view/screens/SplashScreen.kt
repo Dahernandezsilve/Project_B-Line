@@ -1,4 +1,4 @@
-package com.example.proyect_b_line.view
+package com.example.proyect_b_line.view.screens
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable

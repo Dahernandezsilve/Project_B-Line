@@ -21,6 +21,14 @@ val TypographyWhite = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
         color = blackText
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = gilroyFont,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 15.sp,
+        lineHeight = 15.sp,
+        letterSpacing = 0.5.sp,
+        color = blackText
     )
 )
 val TypographyBlack = Typography(
@@ -31,5 +39,14 @@ val TypographyBlack = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
         color = whiteText
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = gilroyFont,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 15.sp,
+        lineHeight = 15.sp,
+        letterSpacing = 0.5.sp,
+        color = whiteText
     )
+
 )
