@@ -1,12 +1,10 @@
 package com.example.proyect_b_line.view.components
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -142,11 +140,7 @@ fun SearchView(viewModel:SearchViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-<<<<<<< HEAD
-fun Search_TextField(context:Context, modifier: Modifier, value:String, onSearchChange: (String)-> Unit){
-=======
-fun seach_TextField(context:Context, modifier: Modifier, value:String, onSearchChange: (String)-> Unit,  onSearch: (KeyboardActionScope.() -> Unit)?){
->>>>>>> main
+fun Search_TextField(context:Context, modifier: Modifier, value:String, onSearchChange: (String)-> Unit, onSearch: (KeyboardActionScope.() -> Unit)?){
     OutlinedTextField(
         singleLine = true,
         value = value,
