@@ -11,8 +11,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +36,12 @@ import java.text.DecimalFormat
 fun ProductCart(product:Product){
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
+    var start by remember {
+        mutableStateOf(false)
+    }
+    var painterRe by remember {
+        mutableStateOf(android.R.drawable.btn_star_big_off)
+    }
 
     Card(
         modifier = Modifier
@@ -45,10 +53,13 @@ fun ProductCart(product:Product){
         shape = RoundedCornerShape(15.dp),
         backgroundColor = MaterialTheme.colorScheme.secondary
     ){
-        Column(verticalArrangement = Arrangement.Center, modifier= Modifier.padding(10.dp).fillMaxWidth()) {
+        Column(verticalArrangement = Arrangement.Center, modifier= Modifier
+            .padding(10.dp)
+            .fillMaxWidth()) {
             ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-                val (productName, productPrice) = createRefs()
+                val (productName, productPrice, buttonStart) = createRefs()
                 createStartBarrier(productName,productPrice)
+                createAbsoluteLeftBarrier(buttonStart,productName, margin = 3.dp)
                 Text(text =product.product_Description,
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Left,
@@ -57,6 +68,25 @@ fun ProductCart(product:Product){
                         absoluteLeft.linkTo(parent.absoluteLeft, margin= 3.dp)
                     }
                 )
+                IconButton(onClick = {
+                    start = !start
+                    when(start){
+                        true -> {
+                            painterRe = android.R.drawable.btn_star_big_off
+                        }
+                        false->{ painterRe = android.R.drawable.btn_star_big_on}
+
+                    }
+                                     }, modifier = Modifier
+                    .constrainAs(buttonStart) {
+                        top.linkTo(parent.top, margin = 3.dp)
+                        absoluteLeft.linkTo(productName.absoluteRight, margin = 3.dp)
+                    }
+                    .size(20.dp),
+                    content = { Image(painter = painterResource(id = painterRe), contentDescription ="" ) }
+
+                )
+
                 Text(
                     text=("$"+df.format(product.costProduct)),
                     style = MaterialTheme.typography.bodyLarge,
