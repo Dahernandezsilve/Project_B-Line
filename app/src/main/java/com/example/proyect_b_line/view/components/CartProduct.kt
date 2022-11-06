@@ -72,8 +72,10 @@ fun ProductCart(product:Product){
                     when(start){
                         true -> {
                             painterRe = R.drawable.estrella
+
                         }
                         false->{ painterRe = R.drawable.estrella2
+
                         }
 
                     }
