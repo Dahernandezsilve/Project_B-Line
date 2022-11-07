@@ -1,5 +1,8 @@
 package com.example.proyect_b_line.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.mutableStateOf
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Jsoup
 
@@ -74,6 +77,22 @@ fun getProducts(): List<Product>{
 
     )
 }
+val store = "https://guatemaladigital.com/"
+
+@RequiresApi(Build.VERSION_CODES.N)
+fun getDataFromGuateDigi():String{
+
+    var urlProduct = mutableStateOf("")
+    val doc = Jsoup.connect(store).get()    // <1>
+    doc.select("bloque--cat-CD:first-of-type bloque--cat--item image:first-of-type a")    // <2>
+        .map { col -> col.attr("scr") }    // <3>
+        .parallelStream()    // <4>
+        .map { urlProduct.value= it }    // <5>
+        .filter { it != null }
+        .forEach { println(it) }
+    return urlProduct.value
+}
+
 
 fun getDataWithJsoup():String{
     val url = "https://es.wikipedia.org/wiki/Wikipedia:Portada"

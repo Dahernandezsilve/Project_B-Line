@@ -30,6 +30,16 @@ import com.example.proyect_b_line.model.Product
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
+/**
+ * Proyect-Bline
+ * Desarrollado por HexaTeamBlue
+ *
+ * Description:
+ * Diseño de la carta en que se le presentan los productos al usuario
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ *  @since 0.1.2, november 6th 2022
+ */
+
 
 @Composable
 fun ProductCart(product:Product){
@@ -69,11 +79,12 @@ fun ProductCart(product:Product){
                 )
                 IconButton(onClick = {
                     start = !start
-                    when(start){
+                    painterRe = when(start){
                         true -> {
-                            painterRe = R.drawable.estrella
+                            R.drawable.estrella
                         }
-                        false->{ painterRe = R.drawable.estrella2
+                        false->{
+                            R.drawable.estrella2
                         }
 
                     }

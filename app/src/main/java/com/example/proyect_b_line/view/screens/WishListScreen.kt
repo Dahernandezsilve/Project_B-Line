@@ -13,14 +13,22 @@ import com.example.proyect_b_line.ui.theme.PB_Theme
 import com.example.proyect_b_line.view.components.Stores
 import com.example.proyect_b_line.view.components.Header
 
+/**
+ * *Proyect-Bline
+ * Desarrollado por HexaTeamBlue*
+ *
+ * Description:
+ * Diseño principal de la lista de deseos de la aplicación
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ * @since 0.1.2, november 6th 2022
+ */
+
 @Composable
 fun WishListScreen (){
     PB_Theme {
         Column {
             Header(R.drawable.milista)
             Stores(listOf())
-
-            //Hola
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()
                 Text(modifier = Modifier.constrainAs(welcomeText){

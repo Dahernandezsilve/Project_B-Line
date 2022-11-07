@@ -1,5 +1,7 @@
 package com.example.proyect_b_line.view.components
 
+
+
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,15 +11,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.proyect_b_line.R
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.viewmodel.SearchViewModel
+/**
+ * *Proyect-Bline
+ * Desarrollado por HexaTeamBlue*
+ *
+ * Description:
+ * Diseño de interfaz que maneja las busqueda por filtro en la aplicacion que se hacen de los
+ * productos de las tiendas en linea
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ * @since 0.1.2, november 6th 2022
+ */
 
 @Composable
 fun Filters(categorie:String, onChageCategorie:(String)->Unit, optionable:Boolean, onChageOptionable:()->Unit, categories: List<Categories>,
