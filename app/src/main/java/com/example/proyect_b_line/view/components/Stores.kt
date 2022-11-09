@@ -8,9 +8,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.proyect_b_line.R
 import com.example.proyect_b_line.model.Product
+import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 /**
  * Proyect-Bline
@@ -26,7 +29,8 @@ import com.example.proyect_b_line.model.Product
 val listStores= listOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 
 @Composable
-fun Stores(productsList: List<Product>) {
+fun Stores(productsList: List<Product>?, viewModel: SearchViewModel, initialValue:Boolean=false) {
+    val context = LocalContext.current
     Column {
         LazyRow(content = {
             for(store in listStores){
@@ -46,10 +50,21 @@ fun Stores(productsList: List<Product>) {
                 }
             }
         })
+        val iniTVal:Int = when(initialValue){
+            true->R.drawable.estrella2
+            false->R.drawable.estrella
+        }
+        val seconVal:Int = when(initialValue){
+            true->R.drawable.estrella
+            false->R.drawable.estrella2
+        }
         LazyColumn(content = {
-            for(product in productsList){
-                item{
-                    ProductCart(product = product)
+            if (productsList != null) {
+                for(i in productsList.indices){
+                    item{
+
+                        ProductCart(product = productsList[i],viewModel.obtainPainter(i, iniTVal), {viewModel.changeBoolean(i,iniTVal, seconVal)})
+                    }
                 }
             }
         }

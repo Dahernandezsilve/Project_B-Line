@@ -8,10 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.ui.theme.PB_Theme
 import com.example.proyect_b_line.view.components.Stores
 import com.example.proyect_b_line.view.components.Header
+import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 /**
  * *Proyect-Bline
@@ -28,7 +30,8 @@ fun WishListScreen (){
     PB_Theme {
         Column {
             Header(R.drawable.milista)
-            Stores(listOf())
+            val viewModel: SearchViewModel = viewModel()
+            Stores(listOf(), viewModel = viewModel, true)
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()
                 Text(modifier = Modifier.constrainAs(welcomeText){

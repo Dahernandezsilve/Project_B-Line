@@ -39,7 +39,7 @@ fun MainScreen(navController: NavController){
             Column (modifier = Modifier) {
                 Header(R.drawable.textologo)
                 SearchView(viewModel)
-                Stores(getProducts())
+                Stores(viewModel.productList().value!!, viewModel)
             }
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val floatingButton = createRef()
