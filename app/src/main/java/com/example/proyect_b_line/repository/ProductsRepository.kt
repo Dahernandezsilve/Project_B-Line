@@ -1,5 +1,6 @@
 package com.example.proyect_b_line.repository
 
+
 import android.icu.util.RangeValueIterator
 import android.util.Log
 import com.example.proyect_b_line.model.Product
@@ -83,6 +84,22 @@ fun getProducts(): List<Product>{
 
     )
 }
+val store = "https://guatemaladigital.com/"
+
+@RequiresApi(Build.VERSION_CODES.N)
+fun getDataFromGuateDigi():String{
+
+    var urlProduct = mutableStateOf("")
+    val doc = Jsoup.connect(store).get()    // <1>
+    doc.select("bloque--cat-CD:first-of-type bloque--cat--item image:first-of-type a")    // <2>
+        .map { col -> col.attr("scr") }    // <3>
+        .parallelStream()    // <4>
+        .map { urlProduct.value= it }    // <5>
+        .filter { it != null }
+        .forEach { println(it) }
+    return urlProduct.value
+}
+
 
 fun getDataWithJsoup():String{
     val url = "https://www.ebay.com/e/latam/sneakers"
