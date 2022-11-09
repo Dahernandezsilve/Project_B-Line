@@ -2,7 +2,10 @@ package com.example.proyect_b_line.repository
 
 
 import android.icu.util.RangeValueIterator
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.mutableStateOf
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
@@ -85,6 +88,7 @@ fun getProducts(): List<Product>{
     )
 }
 val store = "https://guatemaladigital.com/"
+
 
 @RequiresApi(Build.VERSION_CODES.N)
 fun getDataFromGuateDigi():String{
