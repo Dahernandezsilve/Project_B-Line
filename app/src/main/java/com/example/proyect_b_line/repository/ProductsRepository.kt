@@ -1,10 +1,11 @@
 package com.example.proyect_b_line.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.compose.runtime.mutableStateOf
+
+import android.icu.util.RangeValueIterator
+import android.util.Log
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Jsoup
+import org.jsoup.select.Elements
 
 fun getProducts(): List<Product>{
     return listOf(
@@ -17,7 +18,8 @@ fun getProducts(): List<Product>{
             2.4232323f,
             false,
             433.49005f,
-            13.0f
+            13.0f,
+            false
         ),
         Product(
             Url="",
@@ -28,7 +30,8 @@ fun getProducts(): List<Product>{
             4.423232f,
             false,
             433.49005f,
-            50.0f
+            50.0f,
+            false
         ),
         Product(
             Url="",
@@ -39,7 +42,8 @@ fun getProducts(): List<Product>{
             2.4232323f,
             false,
             433.49005f,
-            100.0f
+            100.0f,
+            false
         ),
         Product(
             Url="",
@@ -50,7 +54,8 @@ fun getProducts(): List<Product>{
             4.423232f,
             false,
             433.49005f,
-            50.0f
+            50.0f,
+            false
         ),
         Product(
             Url="",
@@ -61,7 +66,8 @@ fun getProducts(): List<Product>{
             2.4232323f,
             true,
             2333.49f,
-            23.0f
+            23.0f,
+            false
         ),
         Product(
             Url="",
@@ -72,7 +78,8 @@ fun getProducts(): List<Product>{
             2.4232323f,
             true,
             93.49004f,
-            10000.0f
+            10000.0f,
+            false
         )
 
     )
@@ -95,8 +102,12 @@ fun getDataFromGuateDigi():String{
 
 
 fun getDataWithJsoup():String{
-    val url = "https://es.wikipedia.org/wiki/Wikipedia:Portada"
+    val url = "https://www.ebay.com/e/latam/sneakers"
+    var ebayItems = listOf<Elements>()
     Jsoup.connect(url).get().also {
-        return it.toString()
+        //return it.title().toString()
+        ebayItems = listOf(it.getElementsByClass("s-item__wrapper clearfix"))
+        return it.getElementsByClass("s-item__wrapper clearfix").toString()
+        //val elements = it.getElementsByClass("a-size-medium a-color-base a-text-normal").toString()
     }
 }

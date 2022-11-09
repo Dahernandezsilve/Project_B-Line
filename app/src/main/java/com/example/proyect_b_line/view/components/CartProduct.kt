@@ -73,7 +73,9 @@ fun ProductCart(product:Product, painterRe:Int, onChageBooleanFavorite:()-> Unit
                         absoluteLeft.linkTo(parent.absoluteLeft, margin= 3.dp)
                     }
                 )
+
                 IconButton(onClick = onChageBooleanFavorite, modifier = Modifier
+
                     .constrainAs(buttonStart) {
                         top.linkTo(parent.top, margin = 3.dp)
                         absoluteLeft.linkTo(productName.absoluteRight, margin = 3.dp)

@@ -56,7 +56,9 @@ fun MainScreen(navController: NavController){
                 }
 
             }
+
         }
+
     }
 }
 
