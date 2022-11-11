@@ -1,5 +1,13 @@
 package com.example.proyect_b_line.view.screens
-
+/**
+ * Proyect-Bline
+ * Desarrollado por HexaTeamBlue
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ * Description:
+ * Parte del programa que se encarga de manejar la pantalla principal
+ * de la aplicación
+ * @version 0.1.2, november 6th 2022
+ */
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +30,7 @@ import com.example.proyect_b_line.view.components.SearchView
 import com.example.proyect_b_line.view.components.Stores
 import com.example.proyect_b_line.viewmodel.SearchViewModel
 
+
 @Composable
 fun MainScreen(navController: NavController){
     val viewModel:SearchViewModel = viewModel()
@@ -30,7 +39,7 @@ fun MainScreen(navController: NavController){
             Column (modifier = Modifier) {
                 Header(R.drawable.textologo)
                 SearchView(viewModel)
-                Stores(getProducts())
+                Stores(viewModel.productList().value!!, viewModel)
             }
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val floatingButton = createRef()

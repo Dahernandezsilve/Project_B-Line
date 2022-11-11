@@ -1,6 +1,8 @@
 package com.example.proyect_b_line.view.components
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.*
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
@@ -29,6 +31,16 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.viewmodel.SearchViewModel
+
+/**
+ * Proyect-Bline
+ * Desarrollado por HexaTeamBlue
+ *
+ * Description:
+ * Maneja todos los elementos de busqueda de la aplicación.
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ * @since 0.1.2, november 6th 2022
+ */
 
 val listCategories= listOf("Moda", "Nintendo", "Tecnología", "Carros")
 

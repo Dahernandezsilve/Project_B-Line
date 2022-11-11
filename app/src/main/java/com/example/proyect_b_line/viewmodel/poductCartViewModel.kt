@@ -1,7 +1,10 @@
 package com.example.proyect_b_line.viewmodel
 
 import android.content.Context
+import android.graphics.Paint
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,17 +12,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.model.Product
+import com.example.proyect_b_line.repository.getDataFromGuateDigi
 import com.example.proyect_b_line.repository.getDataWithJsoup
+import com.example.proyect_b_line.repository.getProducts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
 class SearchViewModel: ViewModel(){
-    private val productList = mutableStateListOf<Product>()
-    fun productList(): MutableList<Product> = productList
+    private val productList = MutableLiveData(getProducts())
+    fun productList():LiveData<List<Product>> = productList
+
 
     var rotater = mutableStateOf(0.0f)
 
-    private val categories = MutableLiveData<List<Categories>>(
+    private val categories = MutableLiveData(
         listOf(Categories("Tecnologias", {onChangeCategorie("Tecnologias")}),Categories("Alimentos", {onChangeCategorie("Alimentos")}),Categories("Videojuegos", {onChangeCategorie("Videojuegos")})
         ))//, "Alimentos", "Videojuegos"))
     fun categories():LiveData<List<Categories>> = categories
@@ -28,9 +35,9 @@ class SearchViewModel: ViewModel(){
 
     var sizeInt = mutableStateOf(45)
 
-    private val rangers = MutableLiveData<List<Categories>>(
+    private val rangers = MutableLiveData(
         listOf(Categories("$200", {onChangeCategorie("$200")}),Categories("$500", {onChangeCategorie("$500")}),Categories("$1000", {onChangeCategorie("$1000")})
-        ))//, "Alimentos", "Videojuegos"))
+        ))
     fun rangers():LiveData<List<Categories>> = rangers
 
     var text: String = ""
@@ -66,6 +73,14 @@ class SearchViewModel: ViewModel(){
     }
 
 
+    fun newSearch(query: String, context: Context){
+
+        viewModelScope.launch(Dispatchers.IO) {
+            productList.value
+            text = getDataWithJsoup()
+        }
+        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
+    }
 
 
 
@@ -74,17 +89,35 @@ class SearchViewModel: ViewModel(){
     fun onQueryChanged(query: String){
         this.query.value = query
     }
-    fun newSearch( context: Context){
-        val query =this.query
 
-        viewModelScope.launch(Dispatchers.IO) {
-            productList.value
-            for (product in getDataWithJsoup(query.value)){
-            }
+    var mol= mutableListOf("", "")
+
+
+    val productListB = mutableStateOf(getProducts())
+    val booleanFavorite = mutableListOf<Boolean>()
+
+    fun obtainBooleanAsigned(i:Int, initalValue:Boolean):Boolean{
+
+        if(i>=booleanFavorite.size){
+            booleanFavorite.add(initalValue)
         }
-        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
+        return booleanFavorite[i]
     }
+    val paintersFavorite = mutableStateListOf<Int>()
+    fun obtainPainter(i:Int, initalValue:Int):Int{
+
+        if(i>=paintersFavorite.size){
+            paintersFavorite.add(initalValue)
+        }
+        return paintersFavorite[i]
+    }
+
+    fun changeBoolean(i:Int, initalPaint:Int, secondPaint: Int){
+        paintersFavorite[i]= when(paintersFavorite[i]){
+            initalPaint->secondPaint
+            secondPaint->initalPaint
+            else -> secondPaint
+        }
+    }
+
 }
-
-
-
