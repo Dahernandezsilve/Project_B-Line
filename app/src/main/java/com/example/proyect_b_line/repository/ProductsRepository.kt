@@ -1,13 +1,14 @@
 package com.example.proyect_b_line.repository
 
+import androidx.compose.runtime.mutableStateListOf
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
-fun getProducts(): List<Product>{
-    return listOf(
+fun getProducts(): MutableList<Product>{
+    return mutableListOf(
         Product(
             Url="",
             urlImage = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",

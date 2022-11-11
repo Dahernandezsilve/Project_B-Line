@@ -29,7 +29,7 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
 val listStores= listOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 
 @Composable
-fun Stores(productsList: List<Product>?, viewModel: SearchViewModel, initialValue:Boolean=false) {
+fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, initialValue:Boolean=false) {
     val context = LocalContext.current
     Column {
         LazyRow(content = {
