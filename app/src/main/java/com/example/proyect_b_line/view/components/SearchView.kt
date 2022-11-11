@@ -73,7 +73,7 @@ fun SearchView(viewModel:SearchViewModel) {
                     },
                 value = viewModel.query.value,
                 onSearchChange = {viewModel.onQueryChanged(it)},
-                onSearch = {viewModel.newSearch("t", context)
+                onSearch = {viewModel.newSearch(context)
                 }
             )
 

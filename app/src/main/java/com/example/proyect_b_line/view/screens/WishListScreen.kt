@@ -31,7 +31,7 @@ fun WishListScreen (){
         Column {
             Header(R.drawable.milista)
             val viewModel: SearchViewModel = viewModel()
-            Stores(listOf(), viewModel = viewModel, true)
+            Stores(mutableListOf(), viewModel = viewModel, true)
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()
                 Text(modifier = Modifier.constrainAs(welcomeText){

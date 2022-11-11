@@ -1,17 +1,13 @@
 package com.example.proyect_b_line.repository
 
-
-import android.icu.util.RangeValueIterator
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
-fun getProducts(): List<Product>{
+fun getProducts(): MutableList<Product>{
     return mutableListOf(
         Product(
             Url="",
@@ -88,42 +84,27 @@ fun getProducts(): List<Product>{
 
     )
 }
-val store = "https://guatemaladigital.com"
 
-
-@RequiresApi(Build.VERSION_CODES.N)
-fun getDataFromGuateDigi():String{
-
-    var urlProduct = mutableStateOf("")
-    val doc: Document = Jsoup.connect(store).get() // <1>
-    val elementes=doc.select("fieldset")
-    val element = doc.getElementsByClass("bloque--cat--item ")
-    val names = element.select("p, cort_not_h-PD ")
-    var imagesUrl = mutableListOf<Elements>()
-    element
-        .map { col -> col.getElementsByClass("img-fluid rounded d-block articulo--imagen-PD")}
-        .forEach { imagesUrl.add(it) }
-    // doc.select("bloque--cat-CD:first-of-type bloque--cat--item image:first-of-type a")    // <2>
-      //  .map { col -> col.attr("scr") }    // <3>
-       // .parallelStream()    // <4>
-       // .map { urlProduct.value= it }    // <5>
-        //.filter { it != null }
-        //.forEach { println(it) }
-
-
-
-
-    return urlProduct.value
-}
-
-
-fun getDataWithJsoup():String{
-    val url = "https://www.ebay.com/e/latam/sneakers"
+fun getDataWithJsoup(search: String):MutableList<Product>{
+    var search2 = search.replace(" ","+")
+    val url = "https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313&_nkw="+search2+"&_sacat=0"
     var ebayItems = listOf<Elements>()
-    Jsoup.connect(url).get().also {
-        //return it.title().toString()
-        ebayItems = listOf(it.getElementsByClass("s-item__wrapper clearfix"))
-        return it.getElementsByClass("s-item__wrapper clearfix").toString()
-        //val elements = it.getElementsByClass("a-size-medium a-color-base a-text-normal").toString()
+    val doc: Document  = Jsoup.connect(url).get()
+
+    val listaProductos = mutableListOf<Product>()
+
+    var i:Int = 0
+    while (i<10){
+        val image: Element? = doc.getElementsByClass("s-item__image-img").get(i)
+        val absHref = image!!.attr("src")
+        listaProductos.add(Product(urlImage = absHref))
+        i++
     }
+
+    return listaProductos
+
+    // image!!.tagName("img").toString() // "http://jsoup.org/"
+    // val relHref = image!!.attr("src") // == "/"
+
+
 }

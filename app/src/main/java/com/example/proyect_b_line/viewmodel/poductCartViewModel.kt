@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.model.Product
-import com.example.proyect_b_line.repository.getDataFromGuateDigi
 import com.example.proyect_b_line.repository.getDataWithJsoup
 import com.example.proyect_b_line.repository.getProducts
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +19,7 @@ import kotlinx.coroutines.launch
 
 
 class SearchViewModel: ViewModel(){
-    private val productList = MutableLiveData(getProducts())
-    fun productList():LiveData<List<Product>> = productList
+
 
     var rotater = mutableStateOf(0.0f)
 
@@ -51,7 +49,6 @@ class SearchViewModel: ViewModel(){
             sizeInt.value=45
         }
 
-
     }
 
     fun onChangeCategorie(categorieButton:String){
@@ -73,19 +70,18 @@ class SearchViewModel: ViewModel(){
     }
 
 
+    val productListB = mutableStateOf(getProducts())
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun newSearch(query: String, context: Context){
 
+
+    fun newSearch(context: Context){
+
+        val query = this.query
         viewModelScope.launch(Dispatchers.IO) {
-            productList.value
-            text = getDataFromGuateDigi()
+            productListB.value = getDataWithJsoup(query.value)
         }
         Toast.makeText(context,text,Toast.LENGTH_LONG).show()
-        val producted = getProducts()[0]
     }
-
-
 
     val query = mutableStateOf("")
 
@@ -93,10 +89,8 @@ class SearchViewModel: ViewModel(){
         this.query.value = query
     }
 
+
     var mol= mutableListOf("", "")
-
-
-
     val booleanFavorite = mutableListOf<Boolean>()
 
     fun obtainBooleanAsigned(i:Int, initalValue:Boolean):Boolean{
