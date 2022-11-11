@@ -1,9 +1,9 @@
 package com.example.proyect_b_line.repository
 
-import android.icu.util.RangeValueIterator
-import android.util.Log
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
 fun getProducts(): List<Product>{
@@ -84,13 +84,26 @@ fun getProducts(): List<Product>{
     )
 }
 
-fun getDataWithJsoup():String{
-    val url = "https://www.ebay.com/e/latam/sneakers"
+fun getDataWithJsoup(search: String):MutableList<Product>{
+    var search2 = search.replace(" ","+")
+    val url = "https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313&_nkw="+search2+"&_sacat=0"
     var ebayItems = listOf<Elements>()
-    Jsoup.connect(url).get().also {
-        //return it.title().toString()
-        ebayItems = listOf(it.getElementsByClass("s-item__wrapper clearfix"))
-        return it.getElementsByClass("s-item__wrapper clearfix").toString()
-        //val elements = it.getElementsByClass("a-size-medium a-color-base a-text-normal").toString()
+    val doc: Document  = Jsoup.connect(url).get()
+
+    val listaProductos = mutableListOf<Product>()
+
+    var i:Int = 0
+    while (i<10){
+        val image: Element? = doc.getElementsByClass("s-item__image-img").get(i)
+        val absHref = image!!.attr("src")
+        listaProductos.add(Product(urlImage = absHref))
+        i++
     }
+
+    return listaProductos
+
+    // image!!.tagName("img").toString() // "http://jsoup.org/"
+    // val relHref = image!!.attr("src") // == "/"
+
+
 }

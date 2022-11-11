@@ -14,8 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel(){
-    private val productList = MutableLiveData<List<Product>>(listOf())
-    fun productList():LiveData<List<Product>> = productList
+    private val productList = mutableStateListOf<Product>()
+    fun productList(): MutableList<Product> = productList
 
     var rotater = mutableStateOf(0.0f)
 
@@ -65,14 +65,7 @@ class SearchViewModel: ViewModel(){
         }
     }
 
-    fun newSearch(query: String, context: Context){
 
-        viewModelScope.launch(Dispatchers.IO) {
-            productList.value
-            text = getDataWithJsoup()
-        }
-        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
-    }
 
 
 
@@ -80,6 +73,16 @@ class SearchViewModel: ViewModel(){
 
     fun onQueryChanged(query: String){
         this.query.value = query
+    }
+    fun newSearch( context: Context){
+        val query =this.query
+
+        viewModelScope.launch(Dispatchers.IO) {
+            productList.value
+            for (product in getDataWithJsoup(query.value)){
+            }
+        }
+        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
     }
 }
 
