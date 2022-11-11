@@ -8,10 +8,11 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.mutableStateOf
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
 
 fun getProducts(): List<Product>{
-    return listOf(
+    return mutableListOf(
         Product(
             Url="",
             urlImage = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
@@ -87,20 +88,31 @@ fun getProducts(): List<Product>{
 
     )
 }
-val store = "https://guatemaladigital.com/"
+val store = "https://guatemaladigital.com"
 
 
 @RequiresApi(Build.VERSION_CODES.N)
 fun getDataFromGuateDigi():String{
 
     var urlProduct = mutableStateOf("")
-    val doc = Jsoup.connect(store).get()    // <1>
-    doc.select("bloque--cat-CD:first-of-type bloque--cat--item image:first-of-type a")    // <2>
-        .map { col -> col.attr("scr") }    // <3>
-        .parallelStream()    // <4>
-        .map { urlProduct.value= it }    // <5>
-        .filter { it != null }
-        .forEach { println(it) }
+    val doc: Document = Jsoup.connect(store).get() // <1>
+    val elementes=doc.select("fieldset")
+    val element = doc.getElementsByClass("bloque--cat--item ")
+    val names = element.select("p, cort_not_h-PD ")
+    var imagesUrl = mutableListOf<Elements>()
+    element
+        .map { col -> col.getElementsByClass("img-fluid rounded d-block articulo--imagen-PD")}
+        .forEach { imagesUrl.add(it) }
+    // doc.select("bloque--cat-CD:first-of-type bloque--cat--item image:first-of-type a")    // <2>
+      //  .map { col -> col.attr("scr") }    // <3>
+       // .parallelStream()    // <4>
+       // .map { urlProduct.value= it }    // <5>
+        //.filter { it != null }
+        //.forEach { println(it) }
+
+
+
+
     return urlProduct.value
 }
 

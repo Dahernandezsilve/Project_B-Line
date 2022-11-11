@@ -8,6 +8,8 @@ package com.example.proyect_b_line.view.screens
  * de la aplicación
  * @version 0.1.2, november 6th 2022
  */
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +33,7 @@ import com.example.proyect_b_line.view.components.Stores
 import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun MainScreen(navController: NavController){
     val viewModel:SearchViewModel = viewModel()

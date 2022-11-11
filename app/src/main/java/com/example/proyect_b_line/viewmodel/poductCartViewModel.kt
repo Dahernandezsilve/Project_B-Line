@@ -23,7 +23,6 @@ class SearchViewModel: ViewModel(){
     private val productList = MutableLiveData(getProducts())
     fun productList():LiveData<List<Product>> = productList
 
-
     var rotater = mutableStateOf(0.0f)
 
     private val categories = MutableLiveData(
@@ -52,6 +51,7 @@ class SearchViewModel: ViewModel(){
             sizeInt.value=45
         }
 
+
     }
 
     fun onChangeCategorie(categorieButton:String){
@@ -73,13 +73,16 @@ class SearchViewModel: ViewModel(){
     }
 
 
+
+    @RequiresApi(Build.VERSION_CODES.N)
     fun newSearch(query: String, context: Context){
 
         viewModelScope.launch(Dispatchers.IO) {
             productList.value
-            text = getDataWithJsoup()
+            text = getDataFromGuateDigi()
         }
         Toast.makeText(context,text,Toast.LENGTH_LONG).show()
+        val producted = getProducts()[0]
     }
 
 
@@ -93,7 +96,7 @@ class SearchViewModel: ViewModel(){
     var mol= mutableListOf("", "")
 
 
-    val productListB = mutableStateOf(getProducts())
+
     val booleanFavorite = mutableListOf<Boolean>()
 
     fun obtainBooleanAsigned(i:Int, initalValue:Boolean):Boolean{

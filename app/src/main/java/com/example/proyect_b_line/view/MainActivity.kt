@@ -56,6 +56,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()

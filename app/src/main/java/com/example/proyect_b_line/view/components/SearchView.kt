@@ -44,6 +44,7 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 val listCategories= listOf("Moda", "Nintendo", "Tecnología", "Carros")
 
+@RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchView(viewModel:SearchViewModel) {
