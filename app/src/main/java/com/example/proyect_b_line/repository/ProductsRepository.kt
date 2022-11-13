@@ -118,19 +118,19 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     var i:Int = 0
     while (i<10){
         val image: Element? = doc.getElementsByClass("s-image").get(i)
-        val description: Element? = doc.getElementsByClass("a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal").get(i)
-        val desHref = description!!.attr("href")
+       // val description: Element? = doc.getElementsByClass("a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal").get(i)
+       // val desHref = description!!.attr("href")
 
-        val docDescription: Document = Jsoup.connect("https://www.amazon.com/-/es"+desHref).get()
-        val descriptionFinal: Elements = docDescription.select("#productTitle")
+       // val docDescription: Document = Jsoup.connect("https://www.amazon.com/-/es"+desHref).get()
+       // val descriptionFinal: Elements = docDescription.select("#productTitle")
         //val costProduct: Element? = doc.getElementsByClass("a-row a-size-base a-color-base").get(i)
 
         val absHref = image!!.attr("src")
-        val desc = descriptionFinal[1]!!.attr("")
+        //val desc = descriptionFinal[1]!!.attr("")
         //val cost = costProduct!!.attr("").toFloat()
 
         listaProductos.add(Product(urlImage = absHref))
-        listaProductos.add(Product(product_Description = desc))
+        //listaProductos.add(Product(product_Description = desc))
         //listaProductos.add(Product(costProduct = cost))
         i++
     }

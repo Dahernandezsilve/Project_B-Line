@@ -34,7 +34,7 @@ fun AmazonScreen(navController: NavController){
             val viewModel: SearchViewModel = viewModel()
             Header(R.drawable.textologo)
             SearchViewAmazon(viewModel)
-            Stores(viewModel.productListB.value!!, viewModel, true,navController)
+            Stores(viewModel.productListB.value!!, viewModel, false ,navController)
         }
     }
 }
