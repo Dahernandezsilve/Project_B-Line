@@ -2,6 +2,8 @@ package com.example.proyect_b_line.repository
 
 import androidx.compose.runtime.mutableStateListOf
 import com.example.proyect_b_line.model.Product
+import org.jsoup.Connection
+import org.jsoup.Connection.Response
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -109,33 +111,26 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
 
 fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     var search2 = search.replace(" ","+")
-    val url = "https://www.amazon.com/s?k="+search2+"&__mk_es_US=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3GQXNXJFPJLID&sprefix="+search2+"%2Caps%2C163&ref=nb_sb_noss_1"
-    var ebayItems = listOf<Elements>()
-    val doc: Document  = Jsoup.connect(url).get()
-
+    val url = "https://www.amazon.com/s?k="+search2
     val listaProductos = mutableListOf<Product>()
 
+    var response: Connection.Response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(20000).execute()
+    var statusCode: Int = response.statusCode()
+    while (statusCode == 503) {
+        response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(20000).execute()
+        statusCode = response.statusCode()
+    }
+    val doc: Document  = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(20000).followRedirects(true).get()
     var i:Int = 0
     while (i<10){
         val image: Element? = doc.getElementsByClass("s-image").get(i)
-        val description: Element? = doc.getElementsByClass("a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal").get(i)
-        val desHref = description!!.attr("href")
-
-        val docDescription: Document = Jsoup.connect("https://www.amazon.com/-/es"+desHref).get()
-        val descriptionFinal: Elements = docDescription.select("#productTitle")
-        //val costProduct: Element? = doc.getElementsByClass("a-row a-size-base a-color-base").get(i)
-
         val absHref = image!!.attr("src")
-        val desc = descriptionFinal[1]!!.attr("")
-        //val cost = costProduct!!.attr("").toFloat()
 
         listaProductos.add(Product(urlImage = absHref))
-        listaProductos.add(Product(product_Description = desc))
-        //listaProductos.add(Product(costProduct = cost))
+
         i++
     }
 
     return listaProductos
-    // image!!.tagName("img").toString() // "http://jsoup.org/"
-    // val relHref = image!!.attr("src") // == "/"
+    
 }
