@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.model.Product
-import com.example.proyect_b_line.repository.getDataWithJsoup
+import com.example.proyect_b_line.repository.getDataWithJsoupAmazon
+import com.example.proyect_b_line.repository.getDataWithJsoupEbay
 import com.example.proyect_b_line.repository.getProducts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,11 +75,19 @@ class SearchViewModel: ViewModel(){
 
 
 
-    fun newSearch(context: Context){
+    fun newSearchEbay(context: Context){
 
         val query = this.query
         viewModelScope.launch(Dispatchers.IO) {
-            productListB.value = getDataWithJsoup(query.value)
+            productListB.value = getDataWithJsoupEbay(query.value)
+        }
+        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
+    }
+
+    fun newSearchAmazon(context: Context){
+        val query = this.query
+        viewModelScope.launch(Dispatchers.IO) {
+            productListB.value = getDataWithJsoupAmazon(query.value)
         }
         Toast.makeText(context,text,Toast.LENGTH_LONG).show()
     }

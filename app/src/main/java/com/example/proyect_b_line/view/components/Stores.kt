@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.model.Product
 import com.example.proyect_b_line.viewmodel.SearchViewModel
@@ -29,14 +30,16 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
 val listStores= listOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 
 @Composable
-fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, initialValue:Boolean=false) {
+fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, initialValue: Boolean, navController: NavController) {
     val context = LocalContext.current
     Column {
         LazyRow(content = {
             for(store in listStores){
                 item {
                     TextButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            navController.navigate("AmazonScreen")
+                                  },
                         modifier = Modifier
                             .shadow(15.dp, shape = RoundedCornerShape(15.dp,15.dp,0.dp,0.dp), ambientColor = MaterialTheme.colorScheme.inverseSurface)
                             .padding(2.dp, 0.dp)

@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyect_b_line.ui.theme.PB_Theme
+import com.example.proyect_b_line.view.screens.AmazonScreen
 import com.example.proyect_b_line.view.screens.MainScreen
 import com.example.proyect_b_line.view.screens.SplashScreen
 import com.example.proyect_b_line.view.screens.WishListScreen
@@ -69,12 +70,16 @@ fun Navigation() {
             MainScreen(navController = navController)
         }
         composable("wish_list_screen"){
-            WishListScreen()
+            WishListScreen(navController = navController)
+        }
+        composable("AmazonScreen"){
+            AmazonScreen(navController = navController)
         }
     }
 }
 
 
+@RequiresApi(Build.VERSION_CODES.N)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
