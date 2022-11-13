@@ -1,5 +1,16 @@
 package com.example.proyect_b_line.view.screens
-
+/**
+ * Proyect-Bline
+ * Desarrollado por HexaTeamBlue
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ * Description:
+ * Parte del programa que se encarga de manejar la pantalla principal
+ * de la aplicación
+ * @version 0.1.2, november 6th 2022
+ */
+import android.os.Build
+import android.widget.SearchView
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,13 +26,15 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.proyect_b_line.R
-import com.example.proyect_b_line.repository.getProducts
 import com.example.proyect_b_line.ui.theme.PB_Theme
 import com.example.proyect_b_line.view.components.Header
-import com.example.proyect_b_line.view.components.SearchView
+import com.example.proyect_b_line.view.components.SearchViewAmazon
+import com.example.proyect_b_line.view.components.SearchViewEbay
 import com.example.proyect_b_line.view.components.Stores
 import com.example.proyect_b_line.viewmodel.SearchViewModel
 
+
+@RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun MainScreen(navController: NavController){
     val viewModel:SearchViewModel = viewModel()
@@ -29,8 +42,8 @@ fun MainScreen(navController: NavController){
         Box{
             Column (modifier = Modifier) {
                 Header(R.drawable.textologo)
-                SearchView(viewModel)
-                Stores(getProducts())
+                SearchViewEbay(viewModel)
+                Stores(viewModel.productListB.value!!, viewModel, false,navController)
             }
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val floatingButton = createRef()
@@ -47,7 +60,9 @@ fun MainScreen(navController: NavController){
                 }
 
             }
+
         }
+
     }
 }
 

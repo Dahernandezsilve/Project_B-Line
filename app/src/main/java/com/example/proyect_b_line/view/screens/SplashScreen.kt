@@ -25,9 +25,20 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyect_b_line.R
 import kotlinx.coroutines.delay
+/**
+ * *Proyect-Bline
+ * Desarrollado por HexaTeamBlue*
+ *
+ * Description:
+ * Diseño y animacion de la splash screen que recibe a los usuarios a la app
+ *
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ * @since 0.1.2, november 6th 2022
+ */
 
 @Composable
 fun SplashScreen(navController: NavController) {
+    //
     val scale = remember {
         Animatable(0f)
     }

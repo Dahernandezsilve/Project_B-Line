@@ -17,10 +17,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -30,17 +32,21 @@ import com.example.proyect_b_line.model.Product
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
+/**
+ * Proyect-Bline
+ * Desarrollado por HexaTeamBlue
+ *
+ * Description:
+ * Diseño de la carta en que se le presentan los productos al usuario
+ * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
+ *  @since 0.1.2, november 6th 2022
+ */
+
 
 @Composable
-fun ProductCart(product:Product){
+fun ProductCart(product:Product, painterRe:Int, onChageBooleanFavorite:()-> Unit ){
     val df = DecimalFormat("#.##")
     df.roundingMode = RoundingMode.DOWN
-    var start by remember {
-        mutableStateOf(false)
-    }
-    var painterRe by remember {
-        mutableStateOf(R.drawable.estrella)
-    }
 
     Card(
         modifier = Modifier
@@ -67,24 +73,15 @@ fun ProductCart(product:Product){
                         absoluteLeft.linkTo(parent.absoluteLeft, margin= 3.dp)
                     }
                 )
-                IconButton(onClick = {
-                    start = !start
-                    when(start){
-                        true -> {
-                            painterRe = R.drawable.estrella
-                        }
-                        false->{ painterRe = R.drawable.estrella2
-                        }
 
-                    }
-                                     }, modifier = Modifier
+                IconButton(onClick = onChageBooleanFavorite, modifier = Modifier
+
                     .constrainAs(buttonStart) {
                         top.linkTo(parent.top, margin = 3.dp)
                         absoluteLeft.linkTo(productName.absoluteRight, margin = 3.dp)
                     }
                     .size(20.dp),
                     content = { Image(painter = painterResource(id = painterRe), contentDescription ="" ) }
-
                 )
 
                 Text(
@@ -266,3 +263,9 @@ fun Send(shippable: Boolean, costSend: Float){
     }
 }
 
+
+@Preview(showBackground = true)
+@Composable
+fun PrevCart(){
+
+}
