@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 
 class SearchViewModel: ViewModel(){
-
+    val listStores= mutableStateListOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 
     var rotater = mutableStateOf(0.0f)
 
@@ -73,29 +73,75 @@ class SearchViewModel: ViewModel(){
 
     val productListB = mutableStateOf(getProducts())
 
+    fun searchStore(context: Context){
+        val stores = listStores[0]
 
+        when(stores){
 
-    fun newSearchEbay(context: Context){
-
-        val query = this.query
-        viewModelScope.launch(Dispatchers.IO) {
-            productListB.value = getDataWithJsoupEbay(query.value)
+            "Amazon"->newSearchAmazon()
+            "Ebay"->{
+                newSearchEbay()
+            }
+            else -> {
+                Toast.makeText(context, stores, Toast.LENGTH_LONG).show()
+            }
         }
-        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
     }
 
-    fun newSearchAmazon(context: Context){
+    val changeList= mutableStateOf( false)
+    val erroQuery = mutableStateOf(false)
+    fun newSearchEbay(){
         val query = this.query
+        changeList.value = true
+        erroQuery.value = false
         viewModelScope.launch(Dispatchers.IO) {
-            productListB.value = getDataWithJsoupAmazon(query.value)
+            try {
+                productListB.value = getDataWithJsoupEbay(query.value)
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+            if(productListB.value.size==0){
+                erroQuery.value=true
+            }
+            changeList.value = false
         }
-        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
+
+
+    }
+
+    fun newSearchAmazon(){
+        val query = this.query
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+                val listTotry = getDataWithJsoupAmazon(query.value)
+                if(listTotry != null){
+                    if(listTotry.size!=0){
+                        productListB.value = listTotry
+                    }
+                }
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(productListB.value.size==0){
+                erroQuery.value=true
+            }
+            changeList.value = false
+        }
     }
 
     val query = mutableStateOf("")
 
     fun onQueryChanged(query: String){
         this.query.value = query
+    }
+
+    fun newList(mutableList: MutableList<Product>){
+
+
     }
 
 
@@ -124,6 +170,17 @@ class SearchViewModel: ViewModel(){
             secondPaint->initalPaint
             else -> secondPaint
         }
+    }
+
+    val changeStores = mutableStateOf(true)
+
+    fun changeStore(storeToChange:String){
+        changeStores.value = false
+        val actualStore:String = listStores[0]
+        val indiceStore:Int = listStores.indexOf(storeToChange)
+        listStores[0]= listStores[indiceStore]
+        listStores[indiceStore]=actualStore
+        changeStores.value = true
     }
 
 }

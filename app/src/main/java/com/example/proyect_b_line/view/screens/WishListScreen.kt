@@ -32,7 +32,7 @@ fun WishListScreen (navController: NavController){
         Column {
             Header(R.drawable.milista)
             val viewModel: SearchViewModel = viewModel()
-            Stores(mutableListOf(), viewModel = viewModel, true,navController)
+            Stores(mutableListOf(), viewModel = viewModel, true)
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()
                 Text(modifier = Modifier.constrainAs(welcomeText){

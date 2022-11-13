@@ -28,8 +28,7 @@ import androidx.navigation.NavController
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.ui.theme.PB_Theme
 import com.example.proyect_b_line.view.components.Header
-import com.example.proyect_b_line.view.components.SearchViewAmazon
-import com.example.proyect_b_line.view.components.SearchViewEbay
+import com.example.proyect_b_line.view.components.SearchView
 import com.example.proyect_b_line.view.components.Stores
 import com.example.proyect_b_line.viewmodel.SearchViewModel
 
@@ -42,8 +41,8 @@ fun MainScreen(navController: NavController){
         Box{
             Column (modifier = Modifier) {
                 Header(R.drawable.textologo)
-                SearchViewEbay(viewModel)
-                Stores(viewModel.productListB.value!!, viewModel, false,navController)
+                SearchView(viewModel = viewModel)
+                Stores(viewModel.productListB.value!!, viewModel, false)
             }
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val floatingButton = createRef()
