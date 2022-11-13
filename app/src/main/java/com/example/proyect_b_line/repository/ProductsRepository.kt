@@ -90,16 +90,31 @@ fun getProducts(): MutableList<Product>{
 fun getDataWithJsoupEbay(search: String):MutableList<Product>{
     var search2 = search.replace(" ","+")
     val url = "https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313&_nkw="+search2+"&_sacat=0"
-    var ebayItems = listOf<Elements>()
     val doc: Document  = Jsoup.connect(url).get()
 
     val listaProductos = mutableListOf<Product>()
 
     var i:Int = 0
     while (i<10){
+        val product_description: Element? = doc.getElementsByClass("s-item__title").get(i)
         val image: Element? = doc.getElementsByClass("s-item__image-img").get(i)
         val absHref = image!!.attr("src")
-        listaProductos.add(Product(urlImage = absHref))
+        val text: String = product_description?.text().toString()
+        var product_name: String = ""
+        var max = text.length
+        var p = 0
+        while (p<27){
+            if (max<=p){
+                product_name += ""
+            } else{
+                product_name += text[p]
+            }
+            p++
+        }
+        if (max>p){
+            product_name += "..."
+        }
+        listaProductos.add(Product(urlImage = absHref, product_Description = product_name))
         i++
     }
 
@@ -132,5 +147,5 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     }
 
     return listaProductos
-    
+
 }
