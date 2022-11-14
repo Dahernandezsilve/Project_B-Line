@@ -1,13 +1,11 @@
 package com.example.proyect_b_line.repository
 
-import androidx.compose.runtime.mutableStateListOf
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Connection
-import org.jsoup.Connection.Response
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import org.jsoup.select.Elements
+import kotlin.random.Random
 
 fun getProducts(): MutableList<Product>{
     return mutableListOf(
@@ -129,10 +127,10 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     val url = "https://www.amazon.com/s?k="+search2
     val listaProductos = mutableListOf<Product>()
 
-    var response: Connection.Response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(20000).execute()
+    var response: Connection.Response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(Random.nextInt(15000, 20000)).execute()
     var statusCode: Int = response.statusCode()
     while (statusCode == 503) {
-        response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(20000).execute()
+        response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(Random.nextInt(15000, 20000)).execute()
         statusCode = response.statusCode()
     }
     val doc: Document  = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(20000).followRedirects(true).get()

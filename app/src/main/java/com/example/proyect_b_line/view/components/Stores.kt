@@ -83,7 +83,9 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
             }else{
                 CircularProgressIndicator(color = MaterialTheme.colorScheme.primary, modifier = Modifier
                     .fillMaxSize()
-                    .padding(92.dp))
+                    .padding(92.dp),
+                    strokeWidth = 20.dp
+                    )
             }
         }else{
             Text(text = "Error, no se encontraron elementos con dicha busqueda o no se logro conectar a la pagina", style = MaterialTheme.typography.bodyMedium)

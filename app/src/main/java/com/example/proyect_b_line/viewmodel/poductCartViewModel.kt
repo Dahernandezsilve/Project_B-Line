@@ -176,11 +176,15 @@ class SearchViewModel: ViewModel(){
 
     fun changeStore(storeToChange:String){
         changeStores.value = false
+        changeList.value=true
+        productListB.value = getProducts()
         val actualStore:String = listStores[0]
         val indiceStore:Int = listStores.indexOf(storeToChange)
         listStores[0]= listStores[indiceStore]
         listStores[indiceStore]=actualStore
         changeStores.value = true
+        changeList.value=false
+
     }
 
 }
