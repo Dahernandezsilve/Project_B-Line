@@ -16,7 +16,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyect_b_line.ui.theme.PB_Theme
-import com.example.proyect_b_line.view.screens.AmazonScreen
 import com.example.proyect_b_line.view.screens.MainScreen
 import com.example.proyect_b_line.view.screens.SplashScreen
 import com.example.proyect_b_line.view.screens.WishListScreen
@@ -71,9 +70,6 @@ fun Navigation() {
         }
         composable("wish_list_screen"){
             WishListScreen(navController = navController)
-        }
-        composable("AmazonScreen"){
-            AmazonScreen(navController = navController)
         }
     }
 }

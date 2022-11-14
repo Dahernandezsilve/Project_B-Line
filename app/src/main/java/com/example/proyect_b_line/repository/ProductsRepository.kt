@@ -139,10 +139,10 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     var i:Int = 0
     while (i<10){
         val image: Element? = doc.getElementsByClass("s-image").get(i)
+
         val absHref = image!!.attr("src")
 
         listaProductos.add(Product(urlImage = absHref))
-
         i++
     }
 
