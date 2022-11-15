@@ -9,5 +9,4 @@ data class Product(val Url:String="",
                    val shippable:Boolean=false,
                    val costSend:Float=0.0f,
                    val costProduct:Float =0.0f,
-                   val favorite:Boolean = false
                    )

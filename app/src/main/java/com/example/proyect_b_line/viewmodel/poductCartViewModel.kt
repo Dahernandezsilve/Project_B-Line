@@ -23,6 +23,7 @@ class SearchViewModel: ViewModel(){
     val listStores= mutableStateListOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 
     var rotater = mutableStateOf(0.0f)
+    val dicStores= mutableMapOf<String, MutableList<Product>>()
 
     private val categories = MutableLiveData(
         listOf(Categories("Tecnologias", {onChangeCategorie("Tecnologias")}),Categories("Alimentos", {onChangeCategorie("Alimentos")}),Categories("Videojuegos", {onChangeCategorie("Videojuegos")})
@@ -95,13 +96,22 @@ class SearchViewModel: ViewModel(){
         changeList.value = true
         erroQuery.value = false
         viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
             try {
-                productListB.value = getDataWithJsoupEbay(query.value)
+                listTotry = getDataWithJsoupEbay(query.value)
+
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
             }
-            if(productListB.value.size==0){
+
+            if(listTotry == null){
+                productListB.value= getProducts()
                 erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
             }
             changeList.value = false
         }
@@ -114,20 +124,22 @@ class SearchViewModel: ViewModel(){
         changeList.value = true
         erroQuery.value = false
         viewModelScope.launch(Dispatchers.IO) {
-
+            var listTotry = getProducts()
             try {
-                val listTotry = getDataWithJsoupAmazon(query.value)
-                if(listTotry != null){
-                    if(listTotry.size!=0){
-                        productListB.value = listTotry
-                    }
-                }
+                listTotry = getDataWithJsoupAmazon(query.value)
+
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
             }
 
-            if(productListB.value.size==0){
+            if(listTotry == null){
+                productListB.value= getProducts()
                 erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
             }
             changeList.value = false
         }

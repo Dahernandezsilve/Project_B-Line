@@ -1,5 +1,6 @@
 package com.example.proyect_b_line.view.components
 
+import LoadingAnimation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -10,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.proyect_b_line.R
@@ -81,14 +84,31 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
                 }
                 )
             }else{
-                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary, modifier = Modifier
-                    .fillMaxSize()
-                    .padding(92.dp),
-                    strokeWidth = 20.dp
-                    )
+                ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                    val loadingAnimation = createRef()
+                    LoadingAnimation(circleColor = MaterialTheme.colorScheme.primary, modifier = Modifier.constrainAs(loadingAnimation){
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(parent.top)
+                        absoluteRight.linkTo(parent.absoluteRight)
+                        absoluteLeft.linkTo(parent.absoluteLeft)
+                    },
+                        circleSize = 30.dp
+                        )
+
+                }
+
             }
         }else{
-            Text(text = "Error, no se encontraron elementos con dicha busqueda o no se logro conectar a la pagina", style = MaterialTheme.typography.bodyMedium)
+            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                val errorText = createRef()
+                Text(modifier = Modifier.constrainAs(errorText){
+                    bottom.linkTo(parent.bottom)
+                    top.linkTo(parent.top)
+                    absoluteRight.linkTo(parent.absoluteRight)
+                    absoluteLeft.linkTo(parent.absoluteLeft)
+
+                }, textAlign = TextAlign.Center, text = " !! A surgido un error en nuestro sistema")
+            }
         }
 
     }

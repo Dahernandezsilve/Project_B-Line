@@ -19,7 +19,6 @@ fun getProducts(): MutableList<Product>{
             false,
             433.49005f,
             13.0f,
-            false
         ),
         Product(
             Url="",
@@ -31,7 +30,6 @@ fun getProducts(): MutableList<Product>{
             false,
             433.49005f,
             50.0f,
-            false
         ),
         Product(
             Url="",
@@ -43,7 +41,6 @@ fun getProducts(): MutableList<Product>{
             false,
             433.49005f,
             100.0f,
-            false
         ),
         Product(
             Url="",
@@ -54,8 +51,7 @@ fun getProducts(): MutableList<Product>{
             4.423232f,
             false,
             433.49005f,
-            50.0f,
-            false
+            50.0f
         ),
         Product(
             Url="",
@@ -67,7 +63,6 @@ fun getProducts(): MutableList<Product>{
             true,
             2333.49f,
             23.0f,
-            false
         ),
         Product(
             Url="",
@@ -79,42 +74,48 @@ fun getProducts(): MutableList<Product>{
             true,
             93.49004f,
             10000.0f,
-            false
         )
 
     )
 }
 
 fun getDataWithJsoupEbay(search: String):MutableList<Product>{
-    var search2 = search.replace(" ","+")
+    val search2 = search.replace(" ","+")
     val url = "https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313&_nkw="+search2+"&_sacat=0"
     val doc: Document  = Jsoup.connect(url).get()
 
-    val listaProductos = mutableListOf<Product>()
+    var listaProductos = mutableListOf<Product>()
 
-    var i:Int = 0
-    while (i<10){
-        val product_description: Element? = doc.getElementsByClass("s-item__title").get(i)
-        val image: Element? = doc.getElementsByClass("s-item__image-img").get(i)
-        val absHref = image!!.attr("src")
-        val text: String = product_description?.text().toString()
-        var product_name: String = ""
-        var max = text.length
-        var p = 0
-        while (p<27){
-            if (max<=p){
-                product_name += ""
-            } else{
-                product_name += text[p]
+    var i= 1
+    try {
+        val total = doc.getElementsByClass("s-item__title").size-1
+        while (i<total){
+            val product_description: Element? = doc.getElementsByClass("s-item__title").get(i)
+            val image: Element? = doc.getElementsByClass("s-item__image-img").get(i)
+            val absHref = image!!.attr("src")
+            val text: String = product_description?.text().toString()
+            var product_name: String = ""
+            val max = text.length
+            var p = 0
+            while (p<27){
+                if (max<=p){
+                    product_name += ""
+                } else{
+                    product_name += text[p]
+                }
+                p++
             }
-            p++
+            if (max>p){
+                product_name += "..."
+            }
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name))
+            i++
         }
-        if (max>p){
-            product_name += "..."
-        }
-        listaProductos.add(Product(urlImage = absHref, product_Description = product_name))
-        i++
+    }catch (exceptio:NumberFormatException){
+        println(exceptio)
+        listaProductos= getProducts()
     }
+
 
     return listaProductos
 
@@ -122,20 +123,23 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
     // val relHref = image!!.attr("src") // == "/"
 }
 
+val listToUsersAgents = listOf("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0","Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6","Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0")
+
 fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
-    var search2 = search.replace(" ","+")
+    val search2 = search.replace(" ","+")
     val url = "https://www.amazon.com/s?k="+search2
     val listaProductos = mutableListOf<Product>()
-
-    var response: Connection.Response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(Random.nextInt(15000, 20000)).execute()
+    val id = Random.nextInt(0, listToUsersAgents.size)
+    var response: Connection.Response = Jsoup.connect(url).userAgent(listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).execute()
     var statusCode: Int = response.statusCode()
     while (statusCode == 503) {
-        response = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(Random.nextInt(15000, 20000)).execute()
+        response = Jsoup.connect(url).userAgent(listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).execute()
         statusCode = response.statusCode()
     }
-    val doc: Document  = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(20000).followRedirects(true).get()
+    val doc: Document  = Jsoup.connect(url).userAgent(listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).followRedirects(true).get()
     var i:Int = 0
-    while (i<10){
+    val total = doc.getElementsByClass("s-image").size-1
+    while (i<total){
         val image: Element? = doc.getElementsByClass("s-image").get(i)
 
         val absHref = image!!.attr("src")
