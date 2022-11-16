@@ -123,7 +123,7 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
                     absoluteRight.linkTo(parent.absoluteRight)
                     absoluteLeft.linkTo(parent.absoluteLeft)
 
-                }, textAlign = TextAlign.Center, text = " !! A surgido un error en nuestro sistema")
+                }, textAlign = TextAlign.Center, text = " !! No hemos encontrado elementos con esta busqueda")
             }
         }
 
