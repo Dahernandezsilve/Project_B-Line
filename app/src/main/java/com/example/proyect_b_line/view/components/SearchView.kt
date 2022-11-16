@@ -136,9 +136,8 @@ fun SearchView(viewModel:SearchViewModel) {
                         modifier = Modifier
                             .padding(5.dp, 5.dp)
                             .size(100.dp, 35.dp),
-                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
                         shape = RoundedCornerShape(15.dp),
-                        border = BorderStroke(1.dp, Color(0x8DFFFFFF)),
                         content ={
                             Text(text = store, style = MaterialTheme.typography.bodyLarge, fontSize = 12.sp)
                         }

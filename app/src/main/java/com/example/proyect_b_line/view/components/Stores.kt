@@ -1,6 +1,8 @@
 package com.example.proyect_b_line.view.components
 
 import LoadingAnimation
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -38,29 +40,43 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
     Column {
         if (viewModel.changeStores.value){
             LazyRow(content = {
-                for(store in viewModel.listStores){
+                item {
+                    TextButton(
+                        onClick = {
+                            viewModel.changeStore(viewModel.listStores[0])
+                        },
+                        modifier = Modifier
+                            .border(0.dp,shape = RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp), color = MaterialTheme.colorScheme.secondary)
+                            .padding(2.dp, 0.dp)
+                            .size(120.dp, 35.dp),
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                        shape = RoundedCornerShape(15.dp,15.dp,0.dp,0.dp),
+                        content ={
+                            Text(text = viewModel.listStores[0], style = MaterialTheme.typography.bodyLarge)
+                        }
+                    )
+                }
+
+                for(store in 1.. (viewModel.listStores.size-1)){
                     item {
                         TextButton(
                             onClick = {
-                                viewModel.changeStore(store)
+                                viewModel.changeStore(viewModel.listStores[store])
                                       },
                             modifier = Modifier
-                                .shadow(
-                                    15.dp,
-                                    shape = RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp),
-                                    ambientColor = MaterialTheme.colorScheme.inverseSurface
-                                )
                                 .padding(2.dp, 0.dp)
                                 .size(120.dp, 35.dp),
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                            shape = RoundedCornerShape(15.dp,15.dp,0.dp,0.dp),
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                            shape = RoundedCornerShape(0.dp,0.dp,0.dp,0.dp),
                             content ={
-                                Text(text = store, style = MaterialTheme.typography.bodyLarge)
+                                Text(text = viewModel.listStores[store], style = MaterialTheme.typography.bodyLarge)
                             }
                         )
                     }
                 }
-            })
+            },
+                modifier = Modifier.background(color = MaterialTheme.colorScheme.secondary)
+            )
         }
         val iniTVal:Int = when(initialValue){
             true->R.drawable.estrella2

@@ -23,7 +23,25 @@ class SearchViewModel: ViewModel(){
     val listStores= mutableStateListOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
 
     var rotater = mutableStateOf(0.0f)
-    val dicStores= mutableMapOf<String, MutableList<Product>>()
+    val dicStores= mutableStateMapOf<String, MutableList<Product>>()
+    fun Start():Boolean{
+        try {
+            dicStores.put("Amazon", getProducts())
+        }catch (exeception:NumberFormatException){
+            return false
+        }
+        try {
+            dicStores.put("Guatemala Digital", getProducts())
+        }catch (exeception:NumberFormatException){
+            return false
+        }
+        try {
+            dicStores.put("Marketplace", getProducts())
+        }catch (exeception:NumberFormatException){
+            return false
+        }
+        return true
+    }
 
     private val categories = MutableLiveData(
         listOf(Categories("Tecnologias", {onChangeCategorie("Tecnologias")}),Categories("Alimentos", {onChangeCategorie("Alimentos")}),Categories("Videojuegos", {onChangeCategorie("Videojuegos")})
@@ -111,7 +129,8 @@ class SearchViewModel: ViewModel(){
                 if (listTotry.size==0){
                     productListB.value= getProducts()
                     erroQuery.value=true
-                }else productListB.value=listTotry
+                }else {
+                    productListB.value=listTotry}
             }
             changeList.value = false
         }
