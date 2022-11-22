@@ -128,7 +128,7 @@ val listToUsersAgents = listOf("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Geck
 fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     val search2 = search.replace(" ","+")
     val url = "https://www.amazon.com/s?k="+search2
-    val listaProductos = mutableListOf<Product>()
+    var listaProductos = mutableListOf<Product>()
     val id = Random.nextInt(0, listToUsersAgents.size)
     var response: Connection.Response = Jsoup.connect(url).userAgent(listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).execute()
     var statusCode: Int = response.statusCode()
@@ -138,16 +138,106 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     }
     val doc: Document  = Jsoup.connect(url).userAgent(listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).followRedirects(true).get()
     var i:Int = 0
-    val total = doc.getElementsByClass("s-image").size-1
-    while (i<total){
-        val image: Element? = doc.getElementsByClass("s-image").get(i)
 
-        val absHref = image!!.attr("src")
+    try{
+        val total = doc.getElementsByClass("a-price-whole").size-1
+        while (i<total){
+            val image: Element? = doc.getElementsByClass("s-image").get(i)
+            val product_description: Element? = doc.getElementsByClass("a-size-medium a-color-base a-text-normal").get(i)
+            val price_product: Element? = doc.getElementsByClass("a-price-whole").get(i)
+            val calification_product: Element? = doc.getElementsByClass("a-icon-alt").get(i)
 
-        listaProductos.add(Product(urlImage = absHref))
-        i++
+            val text: String = product_description?.text().toString()
+            val price: String = price_product?.text().toString()
+            val score: String = calification_product?.text().toString()
+
+            //Variables Aux
+            val listaScore = score.split(" ")
+
+
+            var product_name: String = ""
+            val max = text.length
+            var p = 0
+            while (p<20){
+                if (max<=p){
+                    product_name += ""
+                } else{
+                    product_name += text[p]
+                }
+                p++
+            }
+
+            val absHref = image!!.attr("src")
+            if (max>p){
+                product_name += "..."
+            }
+
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            i++
+        }
+    }catch (exceptio:NumberFormatException){
+        println(exceptio)
+        listaProductos= getProducts()
     }
 
     return listaProductos
 
+}
+
+fun getDataWithCategorieModa():MutableList<Product>{
+    var listaProductos = mutableListOf<Product>()
+    try{
+        val url = "https://www.amazon.com/s?i=specialty-aps&bbn=16225019011&rh=n%3A7141123011%2Cn%3A16225019011%2Cn%3A1040658&language=es&ref=nav_em__nav_desktop_sa_intl_clothing_0_2_13_2"
+        val id = Random.nextInt(0, com.example.proyect_b_line.repository.listToUsersAgents.size)
+        var response: Connection.Response = Jsoup.connect(url).userAgent(
+            com.example.proyect_b_line.repository.listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).execute()
+        var statusCode: Int = response.statusCode()
+        while (statusCode == 503) {
+            response = Jsoup.connect(url).userAgent(com.example.proyect_b_line.repository.listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).execute()
+            statusCode = response.statusCode()
+        }
+        val doc: Document  = Jsoup.connect(url).userAgent(com.example.proyect_b_line.repository.listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).followRedirects(true).get()
+        var i:Int = 0
+        val total = doc.getElementsByClass("a-price-whole").size-1
+        while (i<total){
+            val image: Element? = doc.getElementsByClass("s-image").get(i)
+            val product_description: Element? = doc.getElementsByClass("a-size-base-plus a-color-base a-text-normal").get(i)
+            val price_product: Element? = doc.getElementsByClass("a-price-whole").get(i)
+            val calification_product: Element? = doc.getElementsByClass("a-icon-alt").get(i)
+
+            val text: String = product_description?.text().toString()
+            val price: String = price_product?.text().toString()
+            val score: String = calification_product?.text().toString()
+
+            //Variables Aux
+            val listaScore = score.split(" ")
+
+
+            var product_name: String = ""
+            val max = text.length
+            var p = 0
+            while (p<20){
+                if (max<=p){
+                    product_name += ""
+                } else{
+                    product_name += text[p]
+                }
+                p++
+            }
+
+            val absHref = image!!.attr("src")
+            if (max>p){
+                product_name += "..."
+            }
+
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            i++
+        }
+    }catch (exceptio:NumberFormatException){
+        println(exceptio)
+        listaProductos= getProducts()
+    }
+
+
+    return listaProductos
 }

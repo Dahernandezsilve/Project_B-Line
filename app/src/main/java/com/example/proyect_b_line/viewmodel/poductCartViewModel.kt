@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.model.Product
+import com.example.proyect_b_line.repository.getDataWithCategorieModa
 import com.example.proyect_b_line.repository.getDataWithJsoupAmazon
 import com.example.proyect_b_line.repository.getDataWithJsoupEbay
 import com.example.proyect_b_line.repository.getProducts
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel: ViewModel(){
     val listStores= mutableStateListOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
+    val listCategories= mutableStateListOf("Moda", "Nintendo", "Tecnología", "Carros")
 
     var rotater = mutableStateOf(0.0f)
     val dicStores= mutableStateMapOf<String, MutableList<Product>>()
@@ -103,7 +105,16 @@ class SearchViewModel: ViewModel(){
             }
             else -> {
                 Toast.makeText(context, stores, Toast.LENGTH_LONG).show()
+
             }
+        }
+    }
+
+    fun searchCategorie(context: Context){
+        val categorie = listCategories[0]
+
+        when(categorie){
+            "Moda"->newSearchModa()
         }
     }
 
@@ -146,6 +157,31 @@ class SearchViewModel: ViewModel(){
             var listTotry = getProducts()
             try {
                 listTotry = getDataWithJsoupAmazon(query.value)
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchModa(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieModa()
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -214,6 +250,21 @@ class SearchViewModel: ViewModel(){
         listStores[0]= listStores[indiceStore]
         listStores[indiceStore]=actualStore
         changeStores.value = true
+        changeList.value=false
+
+    }
+
+    val changeCategorie = mutableStateOf(true)
+
+    fun changeCategorie(storeToChange:String){
+        changeCategorie.value = false
+        changeList.value=true
+        productListB.value = getProducts()
+        val actualCategorie:String = listCategories[0]
+        val indiceCategorie:Int = listCategories.indexOf(storeToChange)
+        listCategories[0]= listCategories[indiceCategorie]
+        listCategories[indiceCategorie]=actualCategorie
+        changeCategorie.value = true
         changeList.value=false
 
     }

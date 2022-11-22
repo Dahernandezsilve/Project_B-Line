@@ -1,8 +1,10 @@
 package com.example.proyect_b_line.view.components
 
 import android.content.Context
+import android.os.AsyncTask
 import android.os.Build
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.*
 import androidx.compose.animation.core.keyframes
@@ -29,9 +31,21 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.proyect_b_line.R
+import com.example.proyect_b_line.model.Product
+import com.example.proyect_b_line.repository.getDataWithJsoupAmazon
+import com.example.proyect_b_line.repository.getProducts
+import com.example.proyect_b_line.repository.listToUsersAgents
 import com.example.proyect_b_line.viewmodel.SearchViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.jsoup.Connection
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import kotlin.random.Random
 
 /**
  * Proyect-Bline
@@ -132,7 +146,9 @@ fun SearchView(viewModel:SearchViewModel) {
             for(store in listCategories){
                 item {
                     TextButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            viewModel.searchCategorie(context)
+                        },
                         modifier = Modifier
                             .padding(5.dp, 5.dp)
                             .size(100.dp, 35.dp),
