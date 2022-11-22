@@ -12,17 +12,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.model.Product
-import com.example.proyect_b_line.repository.getDataWithCategorieModa
-import com.example.proyect_b_line.repository.getDataWithJsoupAmazon
-import com.example.proyect_b_line.repository.getDataWithJsoupEbay
-import com.example.proyect_b_line.repository.getProducts
+import com.example.proyect_b_line.repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 class SearchViewModel: ViewModel(){
     val listStores= mutableStateListOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
-    val listCategories= mutableStateListOf("Moda", "Nintendo", "Tecnología", "Carros")
+    val listCategories= mutableStateListOf("Moda", "Videojuegos", "Tecnología", "Carros")
 
     var rotater = mutableStateOf(0.0f)
     val dicStores= mutableStateMapOf<String, MutableList<Product>>()
@@ -110,11 +107,15 @@ class SearchViewModel: ViewModel(){
         }
     }
 
-    fun searchCategorie(context: Context){
-        val categorie = listCategories[0]
-
+    fun searchCategorie(context: Context, categorie:String){
         when(categorie){
             "Moda"->newSearchModa()
+            "Deportes"->newSearchDeportes()
+            "Videojuegos"->newSearchVideojuegos()
+            "Tecnología"->newSearchTecnologies()
+            "Salud"->newSearchSalud()
+            "Arte"->newSearchArte()
+            "Software"->newSearchSoftware()
         }
     }
 
@@ -182,6 +183,156 @@ class SearchViewModel: ViewModel(){
             var listTotry = getProducts()
             try {
                 listTotry = getDataWithCategorieModa()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchVideojuegos(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieVideojuegos()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchTecnologies(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieTecnologies()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchDeportes(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieDeportes()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchSalud(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieSalud()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchArte(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieArte()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchSoftware(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieSoftware()
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true

@@ -57,7 +57,7 @@ import kotlin.random.Random
  * @since 0.1.2, november 6th 2022
  */
 
-val listCategories= listOf("Moda", "Nintendo", "Tecnología", "Carros")
+val listCategories= listOf("Moda","Deportes", "Videojuegos", "Tecnología", "Salud", "Arte", "Software")
 
 @RequiresApi(Build.VERSION_CODES.N)
 @OptIn(ExperimentalAnimationApi::class)
@@ -147,7 +147,7 @@ fun SearchView(viewModel:SearchViewModel) {
                 item {
                     TextButton(
                         onClick = {
-                            viewModel.searchCategorie(context)
+                            viewModel.searchCategorie(context,store)
                         },
                         modifier = Modifier
                             .padding(5.dp, 5.dp)
