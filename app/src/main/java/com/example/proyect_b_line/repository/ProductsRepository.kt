@@ -96,6 +96,7 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
             val price: Element? = doc.getElementsByClass("s-item__price").get(i)
             var calificationP: String = "0"
             var sizeList = doc.getElementsByClass("s-item s-item__pl-on-bottom").size-1
+            var itemLinks = ""
             if (i>sizeList){
                 calificationP = "0"
             } else {
@@ -103,6 +104,9 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
                     calificationP = "0"
                 } else {
                     var listCalification: Element? = doc.getElementsByClass("s-item s-item__pl-on-bottom").get(i-1)
+                    var links: Element? = doc.getElementsByClass("s-item s-item__pl-on-bottom").get(i)
+                    var itemLink: Element? = links?.getElementsByClass("s-item__link")?.get(0)
+                    itemLinks = itemLink?.attr("href").toString()
                     var sizeCalification = listCalification?.getElementsByClass("x-star-rating")?.size
                     if (sizeCalification == null){
                         calificationP = "0"
@@ -148,7 +152,7 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
 
 
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = priceF, score = calificationF))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = priceF, score = calificationF, Url = itemLinks))
             i++
         }
         val j = 0
