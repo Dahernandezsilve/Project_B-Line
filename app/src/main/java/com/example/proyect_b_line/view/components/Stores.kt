@@ -93,7 +93,7 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
                         for(i in productsList.indices){
                             item{
         
-                                ProductCart(product = productsList[i],viewModel.obtainPainter(i, iniTVal), {viewModel.changeBoolean(i,iniTVal, seconVal)})
+                                ProductCart(product = productsList[i],viewModel.obtainPainter(i, iniTVal, !initialValue), {viewModel.changeBoolean(i,iniTVal, seconVal, !initialValue)})
                             }
                         }
                     }

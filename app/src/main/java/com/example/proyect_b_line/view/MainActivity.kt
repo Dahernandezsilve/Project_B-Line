@@ -11,18 +11,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.proyect_b_line.ui.theme.PB_Theme
 import com.example.proyect_b_line.view.screens.MainScreen
 import com.example.proyect_b_line.view.screens.SplashScreen
-import com.example.proyect_b_line.view.screens.StartLoading
 import com.example.proyect_b_line.view.screens.WishListScreen
 import com.example.proyect_b_line.viewmodel.SearchViewModel
-import com.example.proyect_b_line.viewmodel.ViewmodelTonavigate
 
 /**
  * *Proyect-Bline
@@ -64,16 +62,17 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+    val viewModel= SearchViewModel(LocalContext.current)
     NavHost(navController = navController,
         startDestination = "splash_screen") {
         composable("splash_screen") {
             SplashScreen(navController = navController)
         }
         composable("main_screen"){
-            MainScreen(navController = navController)
+            MainScreen(navController = navController, viewModel)
         }
         composable("wish_list_screen"){
-            WishListScreen(navController = navController)
+            WishListScreen(navController = navController, viewModel)
         }
     }
 }
