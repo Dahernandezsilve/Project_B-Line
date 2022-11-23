@@ -22,7 +22,7 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
  * Description:
  * Diseño principal de la lista de deseos de la aplicación
  * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
- * @since 0.1.2, november 6th 2022
+ * @since 0.5.0, november 23th 2022
  */
 
 @Composable
@@ -32,7 +32,8 @@ fun WishListScreen (navController: NavController, viewModel: SearchViewModel){
     PB_Theme {
         Column {
             Header(R.drawable.milista)
-            Stores(viewModel.obtainProducts(), viewModel = viewModel, true)
+            viewModel.obtainProducts()
+            Stores(viewModel.productListFavorite, viewModel = viewModel, true)
             viewModel.changeList.value=false
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()

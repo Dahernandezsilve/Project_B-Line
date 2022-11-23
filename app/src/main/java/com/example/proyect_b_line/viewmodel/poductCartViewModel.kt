@@ -22,33 +22,15 @@ class SearchViewModel(current: Context) : ViewModel(){
     val listCategories= mutableStateListOf("Moda", "Videojuegos", "Tecnología", "Carros")
     var rotater = mutableStateOf(0.0f)
     val dbFavorites=DBHandler(current)
-    val dicStores= mutableStateMapOf<String, MutableList<Product>>()
+    val dbFromStart = DBHandlerFromStarted(current)
+    val dicStores= mutableStateMapOf<String, List<Product>>()
     var productListFavorite= mutableStateListOf<Product>()
-    fun Start():Boolean{
-        try {
-            dicStores.put("Amazon", getProducts())
-        }catch (exeception:NumberFormatException){
-            return false
-        }
-        try {
-            dicStores.put("Guatemala Digital", getProducts())
-        }catch (exeception:NumberFormatException){
-            return false
-        }
-        try {
-            dicStores.put("Marketplace", getProducts())
-        }catch (exeception:NumberFormatException){
-            return false
-        }
-        return true
-    }
+
 
     private val categories = MutableLiveData(
         listOf(Categories("Tecnologias", {onChangeCategorie("Tecnologias")}),Categories("Alimentos", {onChangeCategorie("Alimentos")}),Categories("Videojuegos", {onChangeCategorie("Videojuegos")})
         ))//, "Alimentos", "Videojuegos"))
     fun categories():LiveData<List<Categories>> = categories
-
-    var ranger = mutableStateOf("")
 
     var sizeInt = mutableStateOf(45)
 
@@ -426,11 +408,35 @@ class SearchViewModel(current: Context) : ViewModel(){
     }
     fun obtainProducts():MutableList<Product>{
         val arg = arrayOf(listStores[0])
-        paintersFavorite = mutableStateListOf<Int>()
-        firstBool = mutableStateListOf<Boolean>()
-        productListFavorite=dbFavorites.readEspecificFavorites(arg)!!.let {
-            mutableStateListOf()
+        viewModelScope.launch {
+            paintersFavorite = mutableStateListOf<Int>()
+            firstBool = mutableStateListOf<Boolean>()
+            productListFavorite = mutableStateListOf()
+            for (i in dbFavorites.readEspecificFavorites(arg)){
+                productListFavorite.add(i)
+            }
+
+
         }
+
+        return productListFavorite
+
+    }
+
+    fun obtainProductsFromStart():MutableList<Product>{
+        val arg = arrayOf(listStores[0])
+        viewModelScope.launch {
+            paintersFavorite = mutableStateListOf()
+            firstBool = mutableStateListOf()
+            productListB.value = mutableStateListOf()
+            for (i in dbFromStart.readEspecificFavorites(arg)){
+                productListB.value.add(i)
+            }
+            dicStores[listStores.get(0)]=productListB.value
+
+
+        }
+
         return productListFavorite
 
     }

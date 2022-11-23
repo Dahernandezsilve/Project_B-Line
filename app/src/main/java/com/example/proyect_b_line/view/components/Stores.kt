@@ -1,9 +1,11 @@
 package com.example.proyect_b_line.view.components
 
 import LoadingAnimation
+import android.text.Layout.Alignment
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Absolute.Center
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,20 +43,31 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
         if (viewModel.changeStores.value){
             LazyRow(content = {
                 item {
-                    TextButton(
-                        onClick = {
-                            viewModel.changeStore(viewModel.listStores[0])
-                        },
+                    Row(
                         modifier = Modifier
-                            .border(0.dp,shape = RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp), color = MaterialTheme.colorScheme.secondary)
+                            .border(
+                                0.dp,
+                                shape = RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
                             .padding(2.dp, 0.dp)
-                            .size(120.dp, 35.dp),
-                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                        shape = RoundedCornerShape(15.dp,15.dp,0.dp,0.dp),
-                        content ={
-                            Text(text = viewModel.listStores[0], style = MaterialTheme.typography.bodyLarge)
+                            .size(120.dp, 35.dp)
+                            .background(
+                                MaterialTheme.colorScheme.primary,
+                                RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp)
+                            ),
+                        horizontalArrangement = Arrangement.Center
+                    ){
+                        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = viewModel.listStores[0],
+                                style = MaterialTheme.typography.bodyLarge,
+                                textAlign = TextAlign.Center,
+                                maxLines = 1
+                            )
                         }
-                    )
+                    }
                 }
 
                 for(store in 1.. (viewModel.listStores.size-1)){
@@ -62,6 +75,7 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
                         TextButton(
                             onClick = {
                                 viewModel.changeStore(viewModel.listStores[store])
+                                viewModel.obtainProducts()
                                       },
                             modifier = Modifier
                                 .padding(2.dp, 0.dp)
