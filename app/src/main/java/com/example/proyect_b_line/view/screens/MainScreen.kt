@@ -9,7 +9,6 @@ package com.example.proyect_b_line.view.screens
  * @version 0.1.2, november 6th 2022
  */
 import android.os.Build
-import android.widget.SearchView
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -35,8 +34,7 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
 
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
-fun MainScreen(navController: NavController){
-    val viewModel:SearchViewModel = viewModel()
+fun MainScreen(navController: NavController, viewModel: SearchViewModel){
     PB_Theme {
         Box{
             Column (modifier = Modifier) {

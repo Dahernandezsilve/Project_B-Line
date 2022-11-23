@@ -1,10 +1,8 @@
 package com.example.proyect_b_line.viewmodel
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Paint
-import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,18 +10,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.model.Product
+import com.example.proyect_b_line.repository.DBHandler
 import com.example.proyect_b_line.repository.getDataWithJsoupAmazon
 import com.example.proyect_b_line.repository.getDataWithJsoupEbay
 import com.example.proyect_b_line.repository.getProducts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.security.KeyStore.TrustedCertificateEntry
 
 
-class SearchViewModel: ViewModel(){
+class SearchViewModel(current: Context) : ViewModel(){
     val listStores= mutableStateListOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
-
     var rotater = mutableStateOf(0.0f)
+    val dbFavorites=DBHandler(current)
     val dicStores= mutableStateMapOf<String, MutableList<Product>>()
+    var productListFavorite= mutableStateListOf<Product>()
     fun Start():Boolean{
         try {
             dicStores.put("Amazon", getProducts())
@@ -55,27 +56,52 @@ class SearchViewModel: ViewModel(){
     private val rangers = MutableLiveData(
         listOf(Categories("$200", {onChangeCategorie("$200")}),Categories("$500", {onChangeCategorie("$500")}),Categories("$1000", {onChangeCategorie("$1000")})
         ))
-    fun rangers():LiveData<List<Categories>> = rangers
+    fun addFavorite(i:Int, inB: Boolean){
+        lateinit var product:Product
+        if(inB){
+            product=productListB.value[i]
+        }else product=productListFavorite[i]
+        viewModelScope.launch {
+            dbFavorites.addNewCourse(listStores[0],
+                product.Url, product.urlImage,
+                product.product_Description,
+                product.availability,
+                product.exists,
+                product.score,
+                product.shippable,
+                product.costSend,
+                product.costProduct
+            )
+            productListFavorite.add(product)
+        }
+
+    }
+
+    fun deleteFavorite(i:Int, inB: Boolean){
+        viewModelScope.launch {
+            lateinit var product:Product
+            if(inB){
+                product=productListB.value[i]
+            }else{
+                product=productListFavorite[i]
+            }
+            val arg: Array<String> = arrayOf(product.Url)
+            dbFavorites.deleteFavorite(arg)
+            productListFavorite.remove(product)
+        }
+
+    }
+
+
 
     var text: String = ""
     var optionable = mutableStateOf(false)
 
     var categorie = mutableStateOf("")
 
-    fun onChagesize(){
-        if(sizeInt.value<=45){
-            sizeInt.value=75
-        }else{
-            sizeInt.value=45
-        }
-
-    }
 
     fun onChangeCategorie(categorieButton:String){
         categorie.value =categorieButton
-    }
-    fun onChangeRager(categorieButton:String){
-        ranger.value = categorieButton
     }
 
     fun onChangeOptionable(){
@@ -90,11 +116,13 @@ class SearchViewModel: ViewModel(){
     }
 
 
+    @SuppressLint("MutableCollectionMutableState")
     val productListB = mutableStateOf(getProducts())
 
     fun searchStore(context: Context){
         val stores = listStores[0]
-
+        paintersFavorite = mutableStateListOf<Int>()
+        firstBool = mutableStateListOf<Boolean>()
         when(stores){
 
             "Amazon"->newSearchAmazon()
@@ -170,37 +198,54 @@ class SearchViewModel: ViewModel(){
         this.query.value = query
     }
 
-    fun newList(mutableList: MutableList<Product>){
-
-
-    }
-
-
-    var mol= mutableListOf("", "")
     val booleanFavorite = mutableListOf<Boolean>()
 
-    fun obtainBooleanAsigned(i:Int, initalValue:Boolean):Boolean{
-
-        if(i>=booleanFavorite.size){
-            booleanFavorite.add(initalValue)
-        }
-        return booleanFavorite[i]
-    }
-    val paintersFavorite = mutableStateListOf<Int>()
-    fun obtainPainter(i:Int, initalValue:Int):Int{
+    var paintersFavorite = mutableStateListOf<Int>()
+    var firstBool = mutableStateListOf<Boolean>()
+    fun obtainPainter(i:Int, initalValue:Int, init:Boolean):Int{
 
         if(i>=paintersFavorite.size){
             paintersFavorite.add(initalValue)
+            firstBool.add(!init)
         }
+
         return paintersFavorite[i]
     }
 
-    fun changeBoolean(i:Int, initalPaint:Int, secondPaint: Int){
+    var booleanLoop= mutableStateOf(true)
+
+
+    fun changeBoolean(i:Int, initalPaint:Int, secondPaint: Int, initalValue: Boolean){
+
+        firstBool[i]= when(firstBool[i]){
+            true -> false
+            false ->true
+        }
+
+        if (firstBool[i]){
+            addFavorite(i,initalValue)
+        }else{
+            deleteFavorite(i,initalValue)
+        }
+
+
         paintersFavorite[i]= when(paintersFavorite[i]){
             initalPaint->secondPaint
             secondPaint->initalPaint
             else -> secondPaint
         }
+
+
+    }
+    fun obtainProducts():MutableList<Product>{
+        val arg = arrayOf(listStores[0])
+        paintersFavorite = mutableStateListOf<Int>()
+        firstBool = mutableStateListOf<Boolean>()
+        productListFavorite=dbFavorites.readEspecificFavorites(arg)!!.let {
+            mutableStateListOf()
+        }
+        return productListFavorite
+
     }
 
     val changeStores = mutableStateOf(true)
@@ -209,6 +254,8 @@ class SearchViewModel: ViewModel(){
         changeStores.value = false
         changeList.value=true
         productListB.value = getProducts()
+        paintersFavorite = mutableStateListOf<Int>()
+        firstBool = mutableStateListOf<Boolean>()
         val actualStore:String = listStores[0]
         val indiceStore:Int = listStores.indexOf(storeToChange)
         listStores[0]= listStores[indiceStore]
