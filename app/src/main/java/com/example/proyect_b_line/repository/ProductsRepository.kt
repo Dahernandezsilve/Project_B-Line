@@ -1,5 +1,6 @@
 package com.example.proyect_b_line.repository
 
+import android.util.Half.toFloat
 import com.example.proyect_b_line.model.Product
 import org.jsoup.Connection
 import org.jsoup.Jsoup
@@ -92,25 +93,65 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
         while (i<total){
             val product_description: Element? = doc.getElementsByClass("s-item__title").get(i)
             val image: Element? = doc.getElementsByClass("s-item__image-img").get(i)
+            val price: Element? = doc.getElementsByClass("s-item__price").get(i)
+            var calificationP: String = "0"
+            var sizeList = doc.getElementsByClass("s-item s-item__pl-on-bottom").size-1
+            if (i>sizeList){
+                calificationP = "0"
+            } else {
+                if (sizeList == 0){
+                    calificationP = "0"
+                } else {
+                    var listCalification: Element? = doc.getElementsByClass("s-item s-item__pl-on-bottom").get(i-1)
+                    var sizeCalification = listCalification?.getElementsByClass("x-star-rating")?.size
+                    if (sizeCalification == null){
+                        calificationP = "0"
+                    } else{
+                        if (sizeCalification == 0){
+                            calificationP = "0"
+                        } else {
+                            val star: Element? = listCalification?.getElementsByClass("x-star-rating")?.get(0)
+                            calificationP = star?.text().toString()
+                        }
+                    }
+                }
+            }
+
+            if (calificationP.equals("")) {
+                calificationP = "0"
+            }
             val absHref = image!!.attr("src")
             val text: String = product_description?.text().toString()
+            var priceP: String = price?.text().toString()
+            var pricej = priceP.replace("Q","").split("a").get(0)
+            pricej = pricej.replace(" ","")
+            val priceF: Float = pricej.toFloat()
+            var calificationT = calificationP.replace("de 5 estrellas.", "")
+            var calificationF = calificationT.toFloat()
             var product_name: String = ""
-            val max = text.length
+            val text2 = text.replace("Anuncio nuevo","")
+            val max = text2.length
             var p = 0
-            while (p<27){
+            while (p<26){
                 if (max<=p){
                     product_name += ""
                 } else{
-                    product_name += text[p]
+                    product_name += text2[p]
                 }
                 p++
             }
+
+
             if (max>p){
                 product_name += "..."
             }
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name))
+
+
+
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = priceF, score = calificationF))
             i++
         }
+        val j = 0
     }catch (exceptio:NumberFormatException){
         println(exceptio)
         listaProductos= getProducts()

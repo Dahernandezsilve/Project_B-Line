@@ -85,7 +85,7 @@ fun ProductCart(product:Product, painterRe:Int, onChageBooleanFavorite:()-> Unit
                 )
 
                 Text(
-                    text=("$"+df.format(product.costProduct)),
+                    text=("Q "+df.format(product.costProduct)),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Right,
                     modifier = Modifier.constrainAs(productPrice){
@@ -222,8 +222,10 @@ fun Qualification(score:Float){
             textAlign = TextAlign.Left,
             style = MaterialTheme.typography.bodyLarge, fontSize = 10.sp)
         Text(text = ""+df.format(score),
-            textAlign = TextAlign.End,
-            modifier = Modifier.padding(8.dp),
+            textAlign = TextAlign.Right,
+            modifier = Modifier
+                .padding(8.dp, 8.dp)
+                .size(30.dp, 13.dp),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 10.sp
@@ -241,7 +243,7 @@ fun Send(shippable: Boolean, costSend: Float){
     var cost = ""
     if (shippable){
         icon= R.drawable.availability
-        cost="$"+df.format(costSend)
+        cost="Q "+df.format(costSend)
     }
 
     Row(modifier = Modifier
