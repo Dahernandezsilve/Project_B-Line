@@ -88,7 +88,7 @@ class DBHandler
     }
     fun deleteFavorite(arg:Array<String>?=null){
         val db = this.writableDatabase
-        db.delete(TABLE_NAME,"url_product", arg)
+        db.execSQL("DELETE FROM "+ TABLE_NAME+" WHERE url_product ='"+arg!!.get(0)+"'")
     }
 
     fun readCourses(): ArrayList<Product>? {
