@@ -28,7 +28,6 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
 @Composable
 fun WishListScreen (navController: NavController, viewModel: SearchViewModel){
     viewModel.changeList.value=true
-
     PB_Theme {
         Column {
             Header(R.drawable.milista)

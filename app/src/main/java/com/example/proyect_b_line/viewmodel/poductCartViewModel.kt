@@ -367,13 +367,15 @@ class SearchViewModel(current: Context) : ViewModel(){
         this.query.value = query
     }
 
-    val booleanFavorite = mutableListOf<Boolean>()
+    fun RestarPainter(){
+        booleanFavorite = mutableStateListOf()
+    }
+    var booleanFavorite = mutableListOf<Boolean>()
 
     var paintersFavorite = mutableStateListOf<Int>()
     var firstBool = mutableStateListOf<Boolean>()
     fun obtainPainter(i:Int, initalValue:Int, init:Boolean):Int{
-
-        if(i>=paintersFavorite.size){
+        while (i>=paintersFavorite.size){
             paintersFavorite.add(initalValue)
             firstBool.add(!init)
         }
@@ -390,19 +392,22 @@ class SearchViewModel(current: Context) : ViewModel(){
             true -> false
             false ->true
         }
-
-        if (firstBool[i]){
-            addFavorite(i,initalValue)
-        }else{
+        if(!initalValue){
             deleteFavorite(i,initalValue)
+        }else{
+            if (firstBool[i]){
+                addFavorite(i,initalValue)
+            }else{
+                deleteFavorite(i,initalValue)
+            }
+            paintersFavorite[i]= when(paintersFavorite[i]){
+                initalPaint->secondPaint
+                secondPaint->initalPaint
+                else -> secondPaint
+            }
         }
 
 
-        paintersFavorite[i]= when(paintersFavorite[i]){
-            initalPaint->secondPaint
-            secondPaint->initalPaint
-            else -> secondPaint
-        }
 
 
     }
@@ -447,8 +452,8 @@ class SearchViewModel(current: Context) : ViewModel(){
         changeStores.value = false
         changeList.value=true
         productListB.value = getProducts()
-        paintersFavorite = mutableStateListOf<Int>()
-        firstBool = mutableStateListOf<Boolean>()
+        paintersFavorite = mutableStateListOf()
+        firstBool = mutableStateListOf()
         val actualStore:String = listStores[0]
         val indiceStore:Int = listStores.indexOf(storeToChange)
         listStores[0]= listStores[indiceStore]

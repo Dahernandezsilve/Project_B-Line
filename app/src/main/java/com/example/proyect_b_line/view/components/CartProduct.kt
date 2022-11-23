@@ -1,5 +1,7 @@
 package com.example.proyect_b_line.view.components
 
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -17,7 +19,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,11 +27,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import coil.compose.AsyncImage
 import com.example.proyect_b_line.R
 import com.example.proyect_b_line.model.Product
 import java.math.RoundingMode
 import java.text.DecimalFormat
+
 
 /**
  * Proyect-Bline
@@ -115,14 +118,21 @@ fun ProductCart(product:Product, painterRe:Int, onChageBooleanFavorite:()-> Unit
                 }
 
 
-                ContentCard(product.availability, product.exists, product.score, product.shippable, product.costSend)
+                ContentCard(product.availability, product.exists, product.score, product.shippable, product.costSend, product.Url)
             }
         }
     }
 }
 
 @Composable
-fun ContentCard(availability: Boolean, exists: Int, score: Float, shippable: Boolean, costSend: Float){
+fun ContentCard(
+    availability: Boolean,
+    exists: Int,
+    score: Float,
+    shippable: Boolean,
+    costSend: Float,
+    url: String
+){
     val context = LocalContext.current
     Column(modifier = Modifier
         .fillMaxSize(),
@@ -130,6 +140,10 @@ fun ContentCard(availability: Boolean, exists: Int, score: Float, shippable: Boo
     ) {
         TextInCard(availability,exists,score, shippable, costSend)
         Button(onClick = {
+            val intentWeb = Intent()
+            intentWeb.action = Intent.ACTION_VIEW
+            intentWeb.data = Uri.parse(url)
+            startActivity(context,intentWeb,null)
             Toast.makeText(
                 context,
                 "Showing toast....",

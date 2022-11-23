@@ -39,6 +39,7 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
 @Composable
 fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, initialValue: Boolean) {
     val context = LocalContext.current
+    viewModel.RestarPainter()
     Column {
         if (viewModel.changeStores.value){
             LazyRow(content = {
@@ -104,7 +105,7 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
             if (!viewModel.changeList.value){
                 LazyColumn(content = {
                     if (productsList != null) {
-                        for(i in productsList.indices){
+                        for(i in 0.. (productsList.size-1)){
                             item{
         
                                 ProductCart(product = productsList[i],viewModel.obtainPainter(i, iniTVal, !initialValue), {viewModel.changeBoolean(i,iniTVal, seconVal, !initialValue)})
