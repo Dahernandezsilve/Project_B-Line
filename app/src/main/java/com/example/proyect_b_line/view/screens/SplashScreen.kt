@@ -33,7 +33,7 @@ import kotlinx.coroutines.delay
  * Diseño y animacion de la splash screen que recibe a los usuarios a la app
  *
  * @author Daniel Valdez, Diego Hernandez, Javier Alvarado
- * @since 0.1.2, november 6th 2022
+ * @since 0.5.0, november 23th 2022
  */
 
 @Composable

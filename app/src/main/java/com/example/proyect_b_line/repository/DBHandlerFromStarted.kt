@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.proyect_b_line.model.Product
 
-class DBHandler
+class DBHandlerFromStarted
     (context: Context?) :
     SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
@@ -61,11 +61,11 @@ class DBHandler
     }
 
     companion object {
-        private const val DB_NAME = "productsdb"
+        private const val DB_NAME = "product"
 
         private const val DB_VERSION = 1
 
-        private const val TABLE_NAME = "favoriteproducts"
+        private const val TABLE_NAME = "started"
 
         private const val URL_PRODUCT = "url_product"
 
