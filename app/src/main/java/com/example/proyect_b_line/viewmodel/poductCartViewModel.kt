@@ -10,10 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyect_b_line.model.Categories
 import com.example.proyect_b_line.model.Product
-import com.example.proyect_b_line.repository.DBHandler
-import com.example.proyect_b_line.repository.getDataWithJsoupAmazon
-import com.example.proyect_b_line.repository.getDataWithJsoupEbay
-import com.example.proyect_b_line.repository.getProducts
+import com.example.proyect_b_line.repository.*
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.security.KeyStore.TrustedCertificateEntry
@@ -21,6 +19,7 @@ import java.security.KeyStore.TrustedCertificateEntry
 
 class SearchViewModel(current: Context) : ViewModel(){
     val listStores= mutableStateListOf("Amazon", "Ebay", "Guatemala digital", "MarketPlace")
+    val listCategories= mutableStateListOf("Moda", "Videojuegos", "Tecnología", "Carros")
     var rotater = mutableStateOf(0.0f)
     val dbFavorites=DBHandler(current)
     val dicStores= mutableStateMapOf<String, MutableList<Product>>()
@@ -131,7 +130,20 @@ class SearchViewModel(current: Context) : ViewModel(){
             }
             else -> {
                 Toast.makeText(context, stores, Toast.LENGTH_LONG).show()
+
             }
+        }
+    }
+
+    fun searchCategorie(context: Context, categorie:String){
+        when(categorie){
+            "Moda"->newSearchModa()
+            "Deportes"->newSearchDeportes()
+            "Videojuegos"->newSearchVideojuegos()
+            "Tecnología"->newSearchTecnologies()
+            "Salud"->newSearchSalud()
+            "Arte"->newSearchArte()
+            "Software"->newSearchSoftware()
         }
     }
 
@@ -174,6 +186,181 @@ class SearchViewModel(current: Context) : ViewModel(){
             var listTotry = getProducts()
             try {
                 listTotry = getDataWithJsoupAmazon(query.value)
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchModa(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieModa()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchVideojuegos(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieVideojuegos()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchTecnologies(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieTecnologies()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchDeportes(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieDeportes()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchSalud(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieSalud()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchArte(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieArte()
+
+            }catch(exeption:NumberFormatException) {
+                erroQuery.value=true
+            }
+
+            if(listTotry == null){
+                productListB.value= getProducts()
+                erroQuery.value=true
+            }else{
+                if (listTotry.size==0){
+                    productListB.value= getProducts()
+                    erroQuery.value=true
+                }else productListB.value=listTotry
+            }
+            changeList.value = false
+        }
+    }
+
+    fun newSearchSoftware(){
+        changeList.value = true
+        erroQuery.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            var listTotry = getProducts()
+            try {
+                listTotry = getDataWithCategorieSoftware()
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -261,6 +448,21 @@ class SearchViewModel(current: Context) : ViewModel(){
         listStores[0]= listStores[indiceStore]
         listStores[indiceStore]=actualStore
         changeStores.value = true
+        changeList.value=false
+
+    }
+
+    val changeCategorie = mutableStateOf(true)
+
+    fun changeCategorie(storeToChange:String){
+        changeCategorie.value = false
+        changeList.value=true
+        productListB.value = getProducts()
+        val actualCategorie:String = listCategories[0]
+        val indiceCategorie:Int = listCategories.indexOf(storeToChange)
+        listCategories[0]= listCategories[indiceCategorie]
+        listCategories[indiceCategorie]=actualCategorie
+        changeCategorie.value = true
         changeList.value=false
 
     }
