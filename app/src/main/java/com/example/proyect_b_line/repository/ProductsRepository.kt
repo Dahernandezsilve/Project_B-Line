@@ -11,7 +11,7 @@ import kotlin.random.Random
 fun getProducts(): MutableList<Product>{
     return mutableListOf(
         Product(
-            Url="",
+            Url="https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
             urlImage = "https://www.steren.com.gt/media/catalog/product/cache/b69086f136192bea7a4d681a8eaf533d/image/20986abca/audifonos-bluetooth-con-bateria-de-hasta-30-h.jpg",
             "Audifonos L",
             false,
@@ -22,7 +22,7 @@ fun getProducts(): MutableList<Product>{
             13.0f,
         ),
         Product(
-            Url="",
+            Url="https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/41PSrh5lpdL._AC_SX466_.jpg",
             urlImage = "https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/41PSrh5lpdL._AC_SX466_.jpg",
             "Joi Cons",
             false,
@@ -33,7 +33,7 @@ fun getProducts(): MutableList<Product>{
             50.0f,
         ),
         Product(
-            Url="",
+            Url="https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/71lcyYiN9rL._AC_UY218_.jpg",
             urlImage = "https://m.media-amazon.com/images/W/WEBP_402378-T1/images/I/71lcyYiN9rL._AC_UY218_.jpg",
             "Nintendo Wii usada",
             true,

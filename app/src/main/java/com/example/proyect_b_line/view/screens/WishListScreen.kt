@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -27,12 +26,14 @@ import com.example.proyect_b_line.viewmodel.SearchViewModel
  */
 
 @Composable
-fun WishListScreen (navController: NavController){
+fun WishListScreen (navController: NavController, viewModel: SearchViewModel){
+    viewModel.changeList.value=true
+
     PB_Theme {
         Column {
             Header(R.drawable.milista)
-            val viewModel: SearchViewModel = viewModel()
-            Stores(mutableListOf(), viewModel = viewModel, true)
+            Stores(viewModel.obtainProducts(), viewModel = viewModel, true)
+            viewModel.changeList.value=false
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()
                 Text(modifier = Modifier.constrainAs(welcomeText){
