@@ -127,7 +127,6 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
                         )
 
                 }
-
             }
         }else{
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
@@ -138,7 +137,7 @@ fun Stores(productsList: MutableList<Product>?, viewModel: SearchViewModel, init
                     absoluteRight.linkTo(parent.absoluteRight)
                     absoluteLeft.linkTo(parent.absoluteLeft)
 
-                }, textAlign = TextAlign.Center, text = " !! No hemos encontrado elementos con esta busqueda")
+                }, textAlign = TextAlign.Center, text = " !! No hemos encontrado elementos en busqueda")
             }
         }
 
