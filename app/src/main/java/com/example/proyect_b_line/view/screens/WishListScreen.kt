@@ -36,13 +36,16 @@ fun WishListScreen (navController: NavController, viewModel: SearchViewModel){
             viewModel.changeList.value=false
             ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                 val welcomeText = createRef()
-                Text(modifier = Modifier.constrainAs(welcomeText){
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(parent.top)
-                    absoluteRight.linkTo(parent.absoluteRight)
-                    absoluteLeft.linkTo(parent.absoluteLeft)
 
-                }, textAlign = TextAlign.Center, text = " + Añade elementos para verlos aquí!")
+                if (viewModel.productListFavorite.size == 0){
+                    Text(modifier = Modifier.constrainAs(welcomeText){
+                        bottom.linkTo(parent.bottom)
+                        top.linkTo(parent.top)
+                        absoluteRight.linkTo(parent.absoluteRight)
+                        absoluteLeft.linkTo(parent.absoluteLeft)
+
+                    }, textAlign = TextAlign.Center, text = " + Añade elementos para verlos aquí!")
+                }
             }
         }
     }
