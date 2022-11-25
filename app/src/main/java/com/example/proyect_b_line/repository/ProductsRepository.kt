@@ -94,6 +94,7 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
             val product_description: Element? = doc.getElementsByClass("s-item__title").get(i)
             val image: Element? = doc.getElementsByClass("s-item__image-img").get(i)
             val price: Element? = doc.getElementsByClass("s-item__price").get(i)
+            val send: Element? = doc.getElementsByClass("s-item__shipping s-item__logisticsCost").get(i-1)
             var calificationP: String = "0"
             var sizeList = doc.getElementsByClass("s-item s-item__pl-on-bottom").size-1
             var itemLinks = ""
@@ -130,13 +131,33 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
             var pricej = priceP.replace("Q","").split("a").get(0)
             pricej = pricej.replace(" ","")
             val priceF: Float = pricej.toFloat()
+            var sendF: String = send?.text().toString()
+            var sendBoolean = false
+            var sendFF = 0.0F
+            if (sendF!="Envío no especificado"){
+                sendBoolean = true
+                sendF = sendF.replace("de envío estimado","")
+                sendF = sendF.replace("por el envío","")
+                sendF = sendF.replace("Q","")
+                sendF = sendF.replace("+","")
+                sendF = sendF.replace("&nbsp;","")
+                sendF = sendF.replace(" ","")
+                sendF = sendF
+                if (sendF=="Envíointernacionalgratis"){
+                    sendBoolean = true
+                    sendFF = 0.0F
+                } else {
+                    sendFF = sendF.toFloat()
+                }
+            }
+
             var calificationT = calificationP.replace("de 5 estrellas.", "")
             var calificationF = calificationT.toFloat()
             var product_name: String = ""
             val text2 = text.replace("Anuncio nuevo","")
             val max = text2.length
             var p = 0
-            while (p<26){
+            while (p<24){
                 if (max<=p){
                     product_name += ""
                 } else{
@@ -152,7 +173,7 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
 
 
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = priceF, score = calificationF, Url = itemLinks))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = priceF, score = calificationF, Url = itemLinks, availability = true, costSend = sendFF, shippable = sendBoolean))
             i++
         }
         val j = 0
