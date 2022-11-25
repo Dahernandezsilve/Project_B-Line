@@ -289,6 +289,10 @@ fun getDataWithCategorieModa():MutableList<Product>{
             //Variables Aux
             val listaScore = score.split(" ")
 
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
+
 
             var product_name: String = ""
             val max = text.length
@@ -307,7 +311,7 @@ fun getDataWithCategorieModa():MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
@@ -344,6 +348,9 @@ fun getDataWithCategorieVideojuegos():MutableList<Product>{
 
             //Variables Aux
             val listaScore = score.split(" ")
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
 
 
             var product_name: String = ""
@@ -363,7 +370,7 @@ fun getDataWithCategorieVideojuegos():MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat()*7.79F,score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
@@ -402,6 +409,11 @@ fun getDataWithCategorieTecnologies():MutableList<Product>{
             val listaScore = score.split(" ")
 
 
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
+
+
             var product_name: String = ""
             val max = text.length
             var p = 0
@@ -419,7 +431,7 @@ fun getDataWithCategorieTecnologies():MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat()*7.79F,score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
@@ -456,6 +468,9 @@ fun getDataWithCategorieDeportes():MutableList<Product>{
 
             //Variables Aux
             val listaScore = score.split(" ")
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
 
 
             var product_name: String = ""
@@ -475,7 +490,7 @@ fun getDataWithCategorieDeportes():MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat()*7.79F,score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
@@ -513,6 +528,9 @@ fun getDataWithCategorieSalud():MutableList<Product>{
             //Variables Aux
             val listaScore = score.split(" ")
 
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
 
             var product_name: String = ""
             val max = text.length
@@ -531,7 +549,7 @@ fun getDataWithCategorieSalud():MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat()*7.79F,score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
@@ -570,6 +588,10 @@ fun getDataWithCategorieArte():MutableList<Product>{
             val listaScore = score.split(" ")
 
 
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
+
             var product_name: String = ""
             val max = text.length
             var p = 0
@@ -587,7 +609,7 @@ fun getDataWithCategorieArte():MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat()*7.79F,score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
@@ -625,6 +647,10 @@ fun getDataWithCategorieSoftware():MutableList<Product>{
             //Variables Aux
             val listaScore = score.split(" ")
 
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
+
 
             var product_name: String = ""
             val max = text.length
@@ -643,7 +669,7 @@ fun getDataWithCategorieSoftware():MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat()*7.79F,score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
