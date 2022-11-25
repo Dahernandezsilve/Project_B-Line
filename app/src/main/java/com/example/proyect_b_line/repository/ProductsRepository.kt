@@ -6,6 +6,7 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 import kotlin.random.Random
 
 fun getProducts(): MutableList<Product>{
@@ -189,7 +190,16 @@ fun getDataWithJsoupEbay(search: String):MutableList<Product>{
     // val relHref = image!!.attr("src") // == "/"
 }
 
-val listToUsersAgents = listOf("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0","Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6","Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0")
+val listToUsersAgents = listOf(
+    "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36",
+    "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582",
+    "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.360",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36"
+)
 
 fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
     val search2 = search.replace(" ","+")
@@ -203,7 +213,7 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
         statusCode = response.statusCode()
     }
     val doc: Document  = Jsoup.connect(url).userAgent(listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).followRedirects(true).get()
-    var i:Int = 0
+    var i = 0
 
     try{
         val total = doc.getElementsByClass("a-price-whole").size-1
@@ -211,11 +221,13 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
             val image: Element? = doc.getElementsByClass("s-image").get(i)
             val product_description: Element? = doc.getElementsByClass("a-size-medium a-color-base a-text-normal").get(i)
             val price_product: Element? = doc.getElementsByClass("a-price-whole").get(i)
-            val calification_product: Element? = doc.getElementsByClass("a-icon-alt").get(i)
-
+            val calP=doc.getElementsByClass("a-price-whole").get(i)
+            var score = "0"
+            val calification_product: Elements = calP.getElementsByClass("a-icon-alt")
+            score = calification_product.get(0).text().toString()
             val text: String = product_description?.text().toString()
             val price: String = price_product?.text().toString()
-            val score: String = calification_product?.text().toString()
+
 
             //Variables Aux
             val listaScore = score.split(" ")

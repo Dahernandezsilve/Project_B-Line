@@ -144,11 +144,6 @@ fun ContentCard(
             intentWeb.action = Intent.ACTION_VIEW
             intentWeb.data = Uri.parse(url)
             startActivity(context,intentWeb,null)
-            Toast.makeText(
-                context,
-                "Showing toast....",
-                Toast.LENGTH_LONG
-            ).show()
         },modifier = Modifier
             .fillMaxWidth()
             .height(27.dp),

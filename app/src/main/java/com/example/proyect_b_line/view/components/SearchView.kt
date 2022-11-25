@@ -1,8 +1,11 @@
 package com.example.proyect_b_line.view.components
 
+import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Build
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -60,88 +63,30 @@ import kotlin.random.Random
 val listCategories= listOf("Moda","Deportes", "Videojuegos", "Tecnología", "Salud", "Arte", "Software")
 
 @RequiresApi(Build.VERSION_CODES.N)
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SearchView(viewModel:SearchViewModel) {
     val context = LocalContext.current
-    var expandedFilter by remember {
-        mutableStateOf(false)
-    }
+    val window =(context as Activity).findViewById<View>(android.R.id.content)
     Column {
-        ConstraintLayout(
-            modifier = Modifier
-                .padding(0.dp, 0.dp, 0.dp, 5.dp)
-                .fillMaxWidth(),
-        ) {
-            val (searchTextField, buttonFilters) = createRefs()
-            createEndBarrier(searchTextField,buttonFilters)
+
             Search_TextField(
                 context=context,
                 modifier = Modifier
-                    .fillMaxWidth(0.75f)
+                    .fillMaxWidth()
                     .size(50.dp)
-                    .constrainAs(searchTextField)
-                    {
-                        top.linkTo(parent.top, margin = 1.dp)
-                        bottom.linkTo(parent.bottom, margin = 1.dp)
-                        absoluteLeft.linkTo(parent.absoluteLeft, margin = 5.dp)
-                    },
+                    .padding(10.dp,0.dp)
+                ,
                 value = viewModel.query.value,
                 onSearchChange = {viewModel.onQueryChanged(it)},
                 onSearch = {viewModel.searchStore(context)
-                }
-            )
-
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(0.20f)
-                    .size(40.dp)
-                    .constrainAs(buttonFilters) {
-                        top.linkTo(parent.top, margin = 3.dp)
-                        bottom.linkTo(parent.bottom, margin = 3.dp)
-                        absoluteRight.linkTo(parent.absoluteRight, margin = 5.dp)
-                    },
-                onClick = { expandedFilter = !expandedFilter},
-                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                content = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.filtrar),
-                        contentDescription = "",
-                        tint = MaterialTheme.colorScheme.secondary
+                    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(
+                        window.applicationWindowToken,
+                        0
                     )
+
                 }
             )
-
-
-
-        }
-        Surface{
-            AnimatedContent(
-                targetState = expandedFilter,
-                transitionSpec = {
-                    fadeIn(animationSpec = tween(150, 150)) with
-                            fadeOut(animationSpec = tween(150)) using
-                            SizeTransform { initialSize, targetSize ->
-                                if (targetState) {
-                                    keyframes {
-                                        // Expand horizontally first.
-                                        IntSize(targetSize.width, initialSize.height) at 150
-                                        durationMillis = 300
-                                    }
-                                } else {
-                                    keyframes {
-                                        // Shrink vertically first.
-                                        IntSize(initialSize.width, targetSize.height) at 150
-                                        durationMillis = 300
-                                    }
-                                }
-                            }
-                }
-            ) { targetExpanded ->
-                if (targetExpanded) {
-                    Filters(viewModel.categorie.value, { viewModel.onChangeCategorie(it) }, viewModel.optionable.value,{viewModel.onChangeOptionable()}, viewModel.categories().value!!,viewModel.sizeInt.value, viewModel.rotater.value )}
-            }
-        }
         LazyRow(content = {
             for(store in listCategories){
                 item {
@@ -192,6 +137,7 @@ fun Search_TextField(context:Context, modifier: Modifier, value:String, onSearch
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Text,
             imeAction = ImeAction.Search,
+
         ),
         keyboardActions = KeyboardActions(onSearch = onSearch),
         colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.secondary)
