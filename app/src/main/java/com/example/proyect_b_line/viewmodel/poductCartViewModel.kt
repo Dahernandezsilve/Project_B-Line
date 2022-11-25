@@ -192,7 +192,11 @@ class SearchViewModel(current: Context) : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             var listTotry = getProducts()
             try {
-                listTotry = getDataWithCategorieModa()
+                if(listStores[0]=="Amazon"){
+                    listTotry = getDataWithCategorieModa()
+                }else if (listStores[0]=="Ebay"){
+                    listTotry = getDataWithJsoupEbay("Moda")
+                }
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -217,7 +221,12 @@ class SearchViewModel(current: Context) : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             var listTotry = getProducts()
             try {
-                listTotry = getDataWithCategorieVideojuegos()
+                when(listStores[0]){
+                    "Amazon"->{listTotry = getDataWithCategorieVideojuegos()}
+                    "Ebay" ->{listTotry = getDataWithJsoupEbay("Videojuegos")
+                    }
+                }
+
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -242,7 +251,12 @@ class SearchViewModel(current: Context) : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             var listTotry = getProducts()
             try {
-                listTotry = getDataWithCategorieTecnologies()
+                when(listStores[0]){
+                    "Amazon"->{listTotry = getDataWithCategorieTecnologies()
+                    }
+                    "Ebay" ->{listTotry = getDataWithJsoupEbay("Tecnologias")
+                    }
+                }
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -267,7 +281,12 @@ class SearchViewModel(current: Context) : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             var listTotry = getProducts()
             try {
-                listTotry = getDataWithCategorieDeportes()
+                when(listStores[0]){
+                    "Amazon"->{listTotry = getDataWithCategorieDeportes()
+                    }
+                    "Ebay" ->{listTotry = getDataWithJsoupEbay("Deportes")
+                    }
+                }
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -292,7 +311,12 @@ class SearchViewModel(current: Context) : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             var listTotry = getProducts()
             try {
-                listTotry = getDataWithCategorieSalud()
+                when(listStores[0]){
+                    "Amazon"->{listTotry = getDataWithCategorieSalud()
+                    }
+                    "Ebay" ->{listTotry = getDataWithJsoupEbay("Salud")
+                    }
+                }
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -317,7 +341,12 @@ class SearchViewModel(current: Context) : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             var listTotry = getProducts()
             try {
-                listTotry = getDataWithCategorieArte()
+                when(listStores[0]){
+                    "Amazon"->{listTotry = getDataWithCategorieArte()
+                    }
+                    "Ebay" ->{listTotry = getDataWithJsoupEbay("Arte")
+                    }
+                }
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
@@ -342,7 +371,12 @@ class SearchViewModel(current: Context) : ViewModel(){
         viewModelScope.launch(Dispatchers.IO) {
             var listTotry = getProducts()
             try {
-                listTotry = getDataWithCategorieSoftware()
+                when(listStores[0]){
+                    "Amazon"->{listTotry = getDataWithCategorieSoftware()
+                    }
+                    "Ebay" ->{listTotry = getDataWithJsoupEbay("Software")
+                    }
+                }
 
             }catch(exeption:NumberFormatException) {
                 erroQuery.value=true
