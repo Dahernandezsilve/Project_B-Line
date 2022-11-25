@@ -213,21 +213,19 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
         statusCode = response.statusCode()
     }
     val doc: Document  = Jsoup.connect(url).userAgent(listToUsersAgents.get(id)).timeout(Random.nextInt(22000, 30000)).followRedirects(true).get()
-    var i = 0
+    var i: Int= 0
 
     try{
         val total = doc.getElementsByClass("a-price-whole").size-1
         while (i<total){
             val image: Element? = doc.getElementsByClass("s-image").get(i)
-            val product_description: Element? = doc.getElementsByClass("a-size-medium a-color-base a-text-normal").get(i)
+            val product_description: Element? = doc.getElementsByClass("a-size-base-plus a-color-base a-text-normal").get(i)
             val price_product: Element? = doc.getElementsByClass("a-price-whole").get(i)
-            val calP=doc.getElementsByClass("a-price-whole").get(i)
-            var score = "0"
-            val calification_product: Elements = calP.getElementsByClass("a-icon-alt")
-            score = calification_product.get(0).text().toString()
+            val calification_product: Element? = doc.getElementsByClass("a-icon-alt").get(i)
+            //score = calification_product.get(0).text().toString()
             val text: String = product_description?.text().toString()
             val price: String = price_product?.text().toString()
-
+            val score: String = calification_product?.text().toString()
 
             //Variables Aux
             val listaScore = score.split(" ")
