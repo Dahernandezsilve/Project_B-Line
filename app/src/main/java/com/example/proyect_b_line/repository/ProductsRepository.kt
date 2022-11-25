@@ -229,8 +229,9 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
 
             //Variables Aux
             val listaScore = score.split(" ")
-
-
+            var itemLinks = ""
+            var links: Element? = doc.getElementsByClass("a-link-normal s-no-outline").get(i)
+            itemLinks = links?.attr("href").toString()
             var product_name: String = ""
             val max = text.length
             var p = 0
@@ -248,7 +249,7 @@ fun getDataWithJsoupAmazon(search: String):MutableList<Product>{
                 product_name += "..."
             }
 
-            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat(),score = listaScore[0].toFloat()))
+            listaProductos.add(Product(urlImage = absHref, product_Description = product_name, costProduct = price.toFloat()*7.79F,score = listaScore[0].toFloat(), Url = "https://www.amazon.com"+itemLinks))
             i++
         }
     }catch (exceptio:NumberFormatException){
