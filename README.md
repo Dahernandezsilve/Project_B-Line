@@ -1,5 +1,7 @@
-# Project_B-Line
-B-Line consists of an application developed in Kotlin within the Android Studio environment, whose priority is to solve the problem of visiting different web pages to find a desired article or product. For this reason, it has the following functionalities: 
-1. - A search engine that analyzes various web pages according to a search and organizes the articles found according to a logical order to present them to the user, showing their price and the website where they are located. 
-2. - Filtering of the articles found according to various categories. 
-3. - A “Favorites” site to store the products that catch the user's attention.
+📱 Project_B-Line
+B-Line es una aplicación desarrollada en Kotlin dentro del entorno de Android Studio, cuya prioridad es resolver el problema de visitar diferentes páginas web para encontrar un artículo o producto deseado. La aplicación cuenta con las siguientes funcionalidades:
+
+🔍 Motor de búsqueda: Analiza varias páginas web según una búsqueda y organiza los artículos encontrados en un orden lógico para presentarlos al usuario, mostrando su precio y el sitio web donde se encuentran.
+🔗 Filtrado de artículos: Permite filtrar los artículos encontrados según varias categorías.
+⭐ Favoritos: Un espacio para almacenar los productos que llaman la atención del usuario.
+Explora y encuentra tus productos favoritos de manera eficiente con B-Line.
